@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول اللغات</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول الباقات</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة اللغات
+                                    <li class="breadcrumb-item active">ادارة الباقات
                                     </li>
                                 </ol>
                             </div>
@@ -36,12 +36,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">اللغات</h4>
+                                <h4 class="card-title">الباقات</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <a href="{{ route('admin.languages.create') }}" class="btn btn-success">اضف جديد</a>
+                                        <a href="{{ route('admin.plans.create') }}" class="btn btn-success">اضف جديد</a>
                                         <a href="" class="btn btn-primary">تحديث</a>
                                         <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
@@ -52,10 +52,9 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>الاسم</th>
-                                                <th>رمز الدولة</th>
-                                                <th>رمز اللغة</th>
-                                                <th>الاتجاه</th>
-                                                <th>الترجمات</th>
+                                                <th>استلام الراتب</th>
+                                                <th>السعر</th>
+                                                <th>عدد الوظائف المسموحة</th>
                                                 <th>الاجراءات</th>
                                             </tr>
                                             </thead>
@@ -63,23 +62,20 @@
                                                 @foreach($elements as $index=>$element)
                                                     <tr>
                                                 <th scope="row">{{ $index +1 }}</th>
-                                                <td>{{ $element->name }}</td>
-                                                <td>{{ $element->code }}</td>
-                                                <td>{{ $element->locale }}</td>
-                                                <td>{{ $element->direction }}</td>
-                                                <td><a href="#" class="btn btn-info">الترجمات المرتبطة</a></td>
+                                                <td>{{ $element->title }}</td>
+                                                <td>{{ $element->salary_type }}</td>
+                                                <td>{{ $element->price }} دولار</td>
+                                                <td>{{ $element->number_of_jobs }} وظيفة</td>
                                                 <td>
 
-                                                    <form action="{{ route('admin.languages.destroy',$element->id) }}" method="post">
+                                                    <form action="{{ route('admin.plans.destroy',$element->id) }}" method="post">
                                                         @method('delete')
                                                         {{ csrf_field() }}
-                                                        <a href="{{ route('admin.languages.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
-                                                        @if(!$loop->first)
-                                                            <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                                <i class="fa fa-trash"></i>
-                                                                حذف
-                                                            </button>
-                                                        @endif
+                                                        <a href="{{ route('admin.plans.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+                                                        <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
+                                                            <i class="fa fa-trash"></i>
+                                                            حذف
+                                                        </button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -122,7 +118,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('admin.languages.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('admin.plans.destroy') }}/${that.dataset.id}`;
                 }
             })
         });

@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27ead4d4-e048-4ef5-accd-917c6e1eacaa" name="Default Changelist" comment="" />
+    <list default="true" id="27ead4d4-e048-4ef5-accd-917c6e1eacaa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Dashboards/Admin/AgreementController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Dashboards/Admin/PlanController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Dashboards/Company/ConventionController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Dashboards/Company/HomeController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/CompanyAuth.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/CompanyLang.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/helpers.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/AgreementTranslation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/ConventionTranslation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Models/PlanTranslation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Admin/agreements/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Admin/agreements/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Admin/agreements/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Admin/plans/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Admin/plans/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Admin/plans/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/conventions/create.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/conventions/edit.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/conventions/index.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/home.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/layouts/_sidebar.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/layouts/app.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/login.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/Company/profile.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/company.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/employee.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/employee.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/AdminLang.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/AdminLang.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Company.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Company.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2020_08_09_185349_create_companies_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2020_08_09_185349_create_companies_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/seeds/AdminSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/AdminSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/languages/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/languages/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Admin/layouts/_sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Admin/layouts/_sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/admin.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +56,10 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="DarkyenusTimeTracker">
+    <option name="totalTimeSeconds" value="11033" />
+    <option name="idleThresholdMs" value="5000" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -120,14 +167,20 @@
       <path value="$PROJECT_DIR$/vendor/filp/whoops" />
       <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
+      <path value="$PROJECT_DIR$/vendor/astrotomic/laravel-translatable" />
+      <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/vendor/maximebf/debugbar" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
     </include_path>
   </component>
   <component name="ProjectId" id="1foiF2eXKX1redvaDmHuexlNGvg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/Admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/Company" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="tasks.timeTracking" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -135,11 +188,11 @@
       <recent name="C:\xampp\htdocs\employee\resources\views\Admin\layouts" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\employee\resources\views\Admin" />
+      <recent name="C:\xampp\htdocs\employee\resources\views\Company" />
+      <recent name="C:\xampp\htdocs\employee\app\Http\Controllers\Dashboards\Company" />
       <recent name="C:\xampp\htdocs\employee\app\Http\Controllers\Dashboards\Admin" />
-      <recent name="C:\xampp\htdocs\employee\resources\views\Admin\languages" />
-      <recent name="C:\xampp\htdocs\employee\resources\lang\en" />
-      <recent name="C:\xampp\htdocs\employee\resources\lang" />
+      <recent name="C:\xampp\htdocs\employee\resources\views\Admin" />
+      <recent name="C:\xampp\htdocs\employee\app\Models" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -171,7 +224,11 @@
       <option name="presentableId" value="Default" />
       <updated>1596890738595</updated>
       <workItem from="1596890739826" duration="7072000" />
-      <workItem from="1596904205418" duration="23573000" />
+      <workItem from="1596904205418" duration="24886000" />
+      <workItem from="1597074457916" duration="81000" />
+      <workItem from="1597074690622" duration="570000" />
+      <workItem from="1597081171437" duration="996000" />
+      <workItem from="1597092085410" duration="13737000" />
     </task>
     <servers />
   </component>
@@ -183,7 +240,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

@@ -24,6 +24,14 @@ Route::group(['prefix' => 'admin-panel','as' => 'admin.'], function () {
         // Companies Crud System
         Route::resource('companies','CompanyController')->except(['destroy']);
         Route::get('companies/destroy/{id?}','CompanyController@destroy')->name('companies.destroy');
+
+        // Plans Crud System
+        Route::resource('plans','PlanController')->except(['destroy']);
+        Route::get('plans/destroy/{id?}','PlanController@destroy')->name('plans.destroy');
+
+        // Agreements Crud System
+        Route::resource('agreements','AgreementController')->except(['destroy']);
+        Route::get('agreements/destroy/{id?}','AgreementController@destroy')->name('agreements.destroy');
     });
 
 

@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Providers\RouteServiceProvider;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
-class AdminLang
+class CompanyAuth
 {
     /**
      * Handle an incoming request.
@@ -15,11 +17,10 @@ class AdminLang
      */
     public function handle($request, Closure $next)
     {
-        if (session()->has('admin-lang')) {
-            App()->setLocale(session('admin-lang'));
-        } else {
-            App()->setLocale('ar');
+        if (Auth::guard('company')->check()) {
+            return $next($request);
         }
-        return $next($request);
+
+        return redirect()->route('company.login');
     }
 }

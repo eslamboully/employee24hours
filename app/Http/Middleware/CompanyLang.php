@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 
-class AdminLang
+class CompanyLang
 {
     /**
      * Handle an incoming request.
@@ -15,8 +15,8 @@ class AdminLang
      */
     public function handle($request, Closure $next)
     {
-        if (session()->has('admin-lang')) {
-            App()->setLocale(session('admin-lang'));
+        if (session()->has('company-lang')) {
+            App()->setLocale(session('company-lang'));
         } else {
             App()->setLocale('ar');
         }

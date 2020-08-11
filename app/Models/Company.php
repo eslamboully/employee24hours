@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Company extends Model
+class Company extends Authenticatable
 {
     use Notifiable;
 
@@ -15,7 +15,7 @@ class Company extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'block', 'photo'
+        'name', 'email', 'photo', 'bio', 'phone', 'website', 'password', 'block'
     ];
 
     /**

@@ -19,6 +19,9 @@ class CreateCompaniesTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('photo')->default('default.png');
+            $table->text('bio')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('website')->nullable();
             $table->string('password');
             $table->tinyInteger('block')->default(0);
             $table->rememberToken();
