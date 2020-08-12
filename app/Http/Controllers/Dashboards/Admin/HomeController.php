@@ -2,6 +2,9 @@
 namespace App\Http\Controllers\Dashboards\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\ContactUs;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -55,5 +58,18 @@ class HomeController extends Controller {
         }
 
         return redirect()->back();
+    }
+
+    public function blockList()
+    {
+        $companies = Company::where('block', 1)->get();
+        $employees = Employee::where('block', 1)->get();
+        return view('Admin.blacklist',compact('companies','employees'));
+    }
+
+    public function contactUs()
+    {
+        $elements = ContactUs::get();
+        return view('Admin.contact-us',compact('elements'));
     }
 }

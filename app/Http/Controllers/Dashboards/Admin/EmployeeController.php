@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Dashboards\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class CompanyController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $elements = Company::all();
-        return view('Admin.companies.index',compact('elements'));
+        $elements = Employee::all();
+        return view('Admin.employees.index',compact('elements'));
     }
 
     /**
@@ -27,7 +27,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('Admin.companies.create');
+        return view('Admin.employees.create');
     }
 
     /**
@@ -46,16 +46,16 @@ class CompanyController extends Controller
         ]);
 
         if ($request->file('photo')) {
-            $image = $request->file('file');
+            $image = $request->file('photo');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/companies/avatar');
+            $destinationPath = public_path('/uploads/employees/avatar');
             $image->move($destinationPath, $name);
             $data['photo'] = $name;
         }
 
-        Company::create($data);
+        Employee::create($data);
         Session::flash('success', 'Added Successfully');
-        return redirect()->route('admin.companies.index');
+        return redirect()->route('admin.employees.index');
     }
 
     /**
@@ -77,8 +77,8 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        $element = Company::find($id);
-        return view('Admin.companies.edit',compact('element'));
+        $element = Employee::find($id);
+        return view('Admin.employees.edit',compact('element'));
     }
 
     /**
@@ -98,18 +98,18 @@ class CompanyController extends Controller
         ]);
 
         if ($request->file('photo')) {
-            $image = $request->file('file');
+            $image = $request->file('photo');
             $name = time().'.'.$image->getClientOriginalExtension();
-            $destinationPath = public_path('/uploads/companies/avatar');
+            $destinationPath = public_path('/uploads/employees/avatar');
             $image->move($destinationPath, $name);
             $data['photo'] = $name;
         }
 
-        $company = Company::find($id);
-        $company->update($data);
+        $employee = Employee::find($id);
+        $employee->update($data);
 
         Session::flash('success', 'Edited Successfully');
-        return redirect()->route('admin.companies.index');
+        return redirect()->route('admin.employees.index');
     }
 
     /**
@@ -120,22 +120,22 @@ class CompanyController extends Controller
      */
     public function destroy($id = null)
     {
-        $company = Company::find($id);
-        $company->delete();
+        $employee = Employee::find($id);
+        $employee->delete();
 
         Session::flash('success', 'Deleted Successfully');
-        return redirect()->route('admin.companies.index');
+        return redirect()->route('admin.employees.index');
     }
 
     public function addBlockOrRemove($id)
     {
-        $company = Company::find($id);
-        if ($company->block == 0) {
-            $company->update(['block' => 1]);
+        $employee = Employee::find($id);
+        if ($employee->block == 0) {
+            $employee->update(['block' => 1]);
         }else {
-            $company->update(['block' => 0]);
+            $employee->update(['block' => 0]);
         }
 
-        return response()->json(['data' => $company->block,'message' => '','status' => true]);
+        return response()->json(['data' => $employee->block,'message' => '','status' => true]);
     }
 }

@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول الباقات</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول الانظمة الداعمة</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الباقات
+                                    <li class="breadcrumb-item active">ادارة الانظمة
                                     </li>
                                 </ol>
                             </div>
@@ -36,12 +36,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">الباقات</h4>
+                                <h4 class="card-title">الانظمة</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <a href="{{ route('admin.plans.create') }}" class="btn btn-success">اضف جديد</a>
+                                        <a href="{{ route('admin.support-systems.create') }}" class="btn btn-success">اضف جديد</a>
                                         <a href="" class="btn btn-primary">تحديث</a>
                                         <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
@@ -51,10 +51,8 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>الاسم</th>
-                                                <th>استلام الراتب</th>
-                                                <th>السعر</th>
-                                                <th>عدد الوظائف المسموحة</th>
+                                                <th>العنوان</th>
+                                                <th>ايقونة النظام</th>
                                                 <th>الاجراءات</th>
                                             </tr>
                                             </thead>
@@ -63,15 +61,13 @@
                                                     <tr>
                                                 <th scope="row">{{ $index +1 }}</th>
                                                 <td>{{ $element->title }}</td>
-                                                <td>{{ $element->salary_type }}</td>
-                                                <td>{{ $element->price }} دولار</td>
-                                                <td>{{ $element->number_of_jobs }} وظيفة</td>
+                                                <td><img src="{{ url('uploads/support_systems/'.$element->photo) }}" style="width: 50px;height: 50px;border-radius: 20px" alt=""></td>
                                                 <td>
 
-                                                    <form action="{{ route('admin.plans.destroy',$element->id) }}" method="post">
+                                                    <form action="{{ route('admin.support-systems.destroy',$element->id) }}" method="post">
                                                         @method('delete')
                                                         {{ csrf_field() }}
-                                                        <a href="{{ route('admin.plans.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+                                                        <a href="{{ route('admin.support-systems.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
                                                         <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
                                                             <i class="fa fa-trash"></i>
                                                             حذف
@@ -95,12 +91,12 @@
 @endsection
 
 @push('js')
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
     <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
     <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
-
     <script>
         $('.delete_class').on('click',function (e) {
             e.preventDefault();
@@ -122,7 +118,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('admin.plans.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('admin.support-systems.destroy') }}/${that.dataset.id}`;
                 }
             })
         });

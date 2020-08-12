@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول الشركات</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول الموظفين</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الشركات
+                                    <li class="breadcrumb-item active">ادارة الموظفين
                                     </li>
                                 </ol>
                             </div>
@@ -37,7 +37,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">الشركات</h4>
+                                    <h4 class="card-title">الموظفين</h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body card-dashboard">
@@ -53,8 +53,6 @@
                                                         <th>الاسم</th>
                                                         <th>البريد الالكتروني</th>
                                                         <th>صورة</th>
-                                                        <th>الوظائف</th>
-                                                        <th>الموظفين التابعين</th>
                                                         <th>وقف الحساب</th>
                                                         <th>الاجراءات</th>
                                                     </tr>
@@ -66,10 +64,8 @@
                                                         <td>{{ $element->name }}</td>
                                                         <td>{{ $element->email }}</td>
                                                         <td>
-                                                            <img src="{{ url('uploads/companies/avatar/'.$element->photo) }}" style="width: 50px;height: 50px" alt="">
+                                                            <img src="{{ url('uploads/employees/avatar/'.$element->photo) }}" style="width: 50px;height: 50px" alt="">
                                                         </td>
-                                                        <td><a href="#" class="btn btn-info">الوظائف التابعة</a></td>
-                                                        <td><a href="#" class="btn btn-info">الموظفين التابعين</a></td>
                                                         <td>
                                                             @if($element->block == 0)
                                                                 <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لوقف الحساب</button>
@@ -79,7 +75,7 @@
                                                         </td>
                                                         <td>
 
-                                                            <form action="{{ route('admin.companies.destroy',$element->id) }}" method="post">
+                                                            <form action="{{ route('admin.employees.destroy',$element->id) }}" method="post">
                                                                 @method('delete')
                                                                 {{ csrf_field() }}
                                                                 <a href="#" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
@@ -87,7 +83,7 @@
 {{--                                                                    <i class="fa fa-trash"></i>--}}
 {{--                                                                    حذف--}}
 {{--                                                                </button>--}}
-{{--                                                                {{ route('admin.companies.edit',$element->id) }}--}}
+{{--                                                                {{ route('admin.employees.edit',$element->id) }}--}}
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -99,8 +95,6 @@
                                                         <th>الاسم</th>
                                                         <th>البريد الالكتروني</th>
                                                         <th>صورة</th>
-                                                        <th>الوظائف</th>
-                                                        <th>الموظفين التابعين</th>
                                                         <th>وقف الحساب</th>
                                                         <th>الاجراءات</th>
                                                     </tr>
@@ -131,7 +125,7 @@
             let that = this;
             // console.log($(this).html('god'));
             $.ajax({
-                url: `{{ route('admin.companies.block') }}/${that.dataset.id}`,
+                url: `{{ route('admin.employees.block') }}/${that.dataset.id}`,
                 method: 'post',
                 data : {_token: "{{ csrf_token() }}"},
                 success: (data) => {
@@ -164,7 +158,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('admin.companies.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('admin.employees.destroy') }}/${that.dataset.id}`;
                 }
             })
         });

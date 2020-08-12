@@ -23,14 +23,6 @@
                     </span>
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <i class="feather icon-circle"></i>
-                    <span class="menu-item" data-i18n="Second Level">
-                        اضف شركة
-                    </span>
-                </a>
-            </li>
         </ul>
     </li>
     <li class=" nav-item">
@@ -61,19 +53,11 @@
             <span class="menu-title" data-i18n="Menu Levels">ادارة الموظفين</span>
         </a>
         <ul class="menu-content">
-            <li>
-                <a href="#">
+            <li class="{{ active('employees') }}">
+                <a href="{{ route('admin.employees.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         الموظفين
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="feather icon-circle"></i>
-                    <span class="menu-item" data-i18n="Second Level">
-                        اضف موظف
                     </span>
                 </a>
             </li>
@@ -114,8 +98,8 @@
             </li>
         </ul>
     </li>
-    <li class="nav-item">
-        <a href="#"><i class="feather icon-play-circle"></i>
+    <li class="nav-item {{ active('support-systems') }}">
+        <a href="{{ route('admin.support-systems.index') }}"><i class="feather icon-play-circle"></i>
             <span class="menu-title" data-i18n="Second Level">الانظمة الداعمة</span>
         </a>
     </li>
@@ -157,8 +141,8 @@
             <span class="menu-title" data-i18n="Second Level">اقسام الاعمال</span>
         </a>
     </li>
-    <li class="nav-item">
-        <a href="#"><i class="feather icon-lock"></i>
+    <li class="nav-item {{ active('blacklist') }}">
+        <a href="{{ route('admin.blacklist') }}"><i class="feather icon-lock"></i>
             <span class="menu-title" data-i18n="Second Level">القائمة السوداء</span>
         </a>
     </li>
@@ -169,8 +153,8 @@
     </li>
     <li class=" navigation-header"><span>التواصل واعدادات المنصة</span>
     </li>
-    <li class="nav-item">
-        <a href="#"><i class="feather icon-phone-call"></i>
+    <li class="nav-item {{ active('contact-us') }}">
+        <a href="{{ route('admin.contact-us') }}"><i class="feather icon-phone-call"></i>
             <span class="menu-title" data-i18n="Second Level">الدعم الفني والتواصل</span>
         </a>
     </li>

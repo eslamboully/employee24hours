@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول الشركات</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول القائمة السوداء</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الشركات
+                                    <li class="breadcrumb-item active">ادارة القائمة السوداء
                                     </li>
                                 </ol>
                             </div>
@@ -37,11 +37,12 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">الشركات</h4>
+                                    <h4 class="card-title">القائمة السوداء</h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body card-dashboard">
                                         <p class="card-text">
+                                            <a href="{{ route('admin.companies.create') }}" class="btn btn-success">اضف جديد</a>
                                             <a href="" class="btn btn-primary">تحديث</a>
                                             <a href="" class="btn btn-danger">حذف الكل</a>
                                         </p>
@@ -50,17 +51,15 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>الاسم</th>
+                                                        <th>اسم الشركة او الموظف</th>
                                                         <th>البريد الالكتروني</th>
                                                         <th>صورة</th>
-                                                        <th>الوظائف</th>
-                                                        <th>الموظفين التابعين</th>
                                                         <th>وقف الحساب</th>
                                                         <th>الاجراءات</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($elements as $index=>$element)
+                                                    @foreach($companies as $index=>$element)
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
                                                         <td>{{ $element->name }}</td>
@@ -68,14 +67,8 @@
                                                         <td>
                                                             <img src="{{ url('uploads/companies/avatar/'.$element->photo) }}" style="width: 50px;height: 50px" alt="">
                                                         </td>
-                                                        <td><a href="#" class="btn btn-info">الوظائف التابعة</a></td>
-                                                        <td><a href="#" class="btn btn-info">الموظفين التابعين</a></td>
                                                         <td>
-                                                            @if($element->block == 0)
-                                                                <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لوقف الحساب</button>
-                                                            @else
-                                                                <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لتفعيل الحساب</button>
-                                                            @endif
+                                                            <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لتفعيل الحساب</button>
                                                         </td>
                                                         <td>
 
@@ -92,15 +85,39 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                @foreach($employees as $index=>$element)
+                                                    <tr>
+                                                        <td scope="row">{{ $index +1 }}</td>
+                                                        <td>{{ $element->name }}</td>
+                                                        <td>{{ $element->email }}</td>
+                                                        <td>
+                                                            <img src="{{ url('uploads/employees/avatar/'.$element->photo) }}" style="width: 50px;height: 50px" alt="">
+                                                        </td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-warning employee-block-button" data-id="{{ $element->id }}">اضغط لتفعيل الحساب</button>
+                                                        </td>
+                                                        <td>
+
+                                                            <form action="{{ route('admin.employees.destroy',$element->id) }}" method="post">
+                                                                @method('delete')
+                                                                {{ csrf_field() }}
+                                                                <a href="#" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+{{--                                                                <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">--}}
+{{--                                                                    <i class="fa fa-trash"></i>--}}
+{{--                                                                    حذف--}}
+{{--                                                                </button>--}}
+{{--                                                                {{ route('admin.companies.edit',$element->id) }}--}}
+                                                            </form>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>الاسم</th>
+                                                        <th>اسم الشركة او الموظف</th>
                                                         <th>البريد الالكتروني</th>
                                                         <th>صورة</th>
-                                                        <th>الوظائف</th>
-                                                        <th>الموظفين التابعين</th>
                                                         <th>وقف الحساب</th>
                                                         <th>الاجراءات</th>
                                                     </tr>
@@ -135,11 +152,21 @@
                 method: 'post',
                 data : {_token: "{{ csrf_token() }}"},
                 success: (data) => {
-                    if(data.data == 0) {
-                        $(this).html('اضغط لوقف الحساب');
-                    }else{
-                        $(this).html('اضغط لتفعيل الحساب');
-                    }
+                    $(this).parent().parent().remove();
+                }
+            });
+        });
+
+        $('.employee-block-button').on('click',function (e) {
+            e.preventDefault();
+            let that = this;
+            // console.log($(this).html('god'));
+            $.ajax({
+                url: `{{ route('admin.employees.block') }}/${that.dataset.id}`,
+                method: 'post',
+                data : {_token: "{{ csrf_token() }}"},
+                success: (data) => {
+                    $(this).parent().parent().remove();
                 }
             });
         });
