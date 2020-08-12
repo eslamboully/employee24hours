@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'employee',
         'passwords' => 'users',
     ],
 
@@ -44,9 +44,9 @@ return [
             'driver' => 'session',
             'provider' => 'companies',
         ],
-        'web' => [
+        'employee' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'employees',
         ],
         'api' => [
             'driver' => 'token',
@@ -81,9 +81,9 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Company::class,
         ],
-        'users' => [
+        'employees' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Employee::class,
         ],
 
         // 'users' => [

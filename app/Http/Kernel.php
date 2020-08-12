@@ -58,6 +58,8 @@ class Kernel extends HttpKernel
         'admin.lang' => \App\Http\Middleware\AdminLang::class,
         'company.auth' => \App\Http\Middleware\CompanyAuth::class,
         'company.lang' => \App\Http\Middleware\CompanyLang::class,
+        'employee.auth' => \App\Http\Middleware\EmployeeAuth::class,
+        'employee.lang' => \App\Http\Middleware\EmployeeLang::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

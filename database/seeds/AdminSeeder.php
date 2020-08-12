@@ -3,6 +3,7 @@
 use App\Models\Admin;
 use App\Models\Agreement;
 use App\Models\Company;
+use App\Models\Employee;
 use App\Models\Language;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Config;
@@ -24,10 +25,21 @@ class AdminSeeder extends Seeder
         ]);
 
         // Company Test Account
-        $admin = Company::create([
+        $company = Company::create([
             'name' => 'Company Account',
             'email' => 'company@company.com',
             'password' => bcrypt('company')
+        ]);
+
+        // Employee Test Account
+        $employee = Employee::create([
+            'name' => 'Employee Account',
+            'email' => 'employee@employee.com',
+            'password' => bcrypt('employee'),
+            'languages' => 'Arabic, English',
+            'work_from' => '1:00 AM',
+            'work_to' => '9:00 PM',
+            'work_days_in_week' => '4'
         ]);
 
         // Languages
