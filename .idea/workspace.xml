@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="27ead4d4-e048-4ef5-accd-917c6e1eacaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Dashboards/Employee/HomeController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/EmployeeAuth.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/EmployeeLang.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/uploads/employees/avatar/default.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/Employee/home.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/Employee/layouts/_sidebar.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/Employee/layouts/app.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/Employee/login.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/Employee/profile.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/employee.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Employee.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/auth.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/auth.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/AdminSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/AdminSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/Employee/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/Employee/layouts/app.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +20,7 @@
     </execution>
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="16115" />
+    <option name="totalTimeSeconds" value="16226" />
     <option name="idleThresholdMs" value="2000" />
   </component>
   <component name="Git.Settings">
@@ -203,7 +190,7 @@
       <workItem from="1597074457916" duration="81000" />
       <workItem from="1597074690622" duration="570000" />
       <workItem from="1597081171437" duration="996000" />
-      <workItem from="1597092085410" duration="17782000" />
+      <workItem from="1597092085410" duration="17872000" />
     </task>
     <servers />
   </component>
