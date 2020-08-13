@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول اتفاقيات الشركة</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول الوجبات</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الاتفاقيات
+                                    <li class="breadcrumb-item active">ادارة الوجبات
                                     </li>
                                 </ol>
                             </div>
@@ -36,12 +36,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">الاتفاقيات</h4>
+                                <h4 class="card-title">الوجبات</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <a href="{{ route('company.conventions.create') }}" class="btn btn-success">اضف جديد</a>
+                                        <a href="{{ route('company.meals.create') }}" class="btn btn-success">اضف جديد</a>
                                         <a href="" class="btn btn-primary">تحديث</a>
                                         <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
@@ -51,22 +51,32 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>البند الاساسي</th>
-                                                    <th>اتفاقية الراتب</th>
+                                                    <th>الوجبة</th>
+                                                    <th>نوع العرض</th>
+                                                    <th>السعر</th>
+                                                    <th>سعر العرض</th>
+                                                    <th>القسم</th>
                                                     <th>الاجراءات</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($elements as $index=>$element)
                                                     <tr>
-                                                        <td>{{ $index +1 }}</td>
-                                                        <td>{{ Str::limit(strip_tags($element->main_items),20) }}</td>
-                                                        <td>{{ $element->agreement->title }}</td>
+                                                        <th scope="row">{{ $index +1 }}</th>
+                                                        <td>{{ $element->title }}</td>
+                                                        @if($element->offer_type == 0)
+                                                            <td>دائم</td>
+                                                        @else
+                                                            <td>مؤقت</td>
+                                                        @endif
+                                                        <td>{{ $element->price }}</td>
+                                                        <td>{{ $element->offer_price }}</td>
+                                                        <td>{{ $element->department->title }}</td>
                                                         <td>
-                                                            <form action="{{ route('company.conventions.destroy',$element->id) }}" method="post">
+                                                            <form action="{{ route('company.meals.destroy',$element->id) }}" method="post">
                                                                 @method('delete')
                                                                 {{ csrf_field() }}
-                                                                <a href="{{ route('company.conventions.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+                                                                <a href="{{ route('company.meals.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
                                                                 <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
                                                                     <i class="fa fa-trash"></i>
                                                                     حذف
@@ -117,7 +127,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('company.conventions.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('company.meals.destroy') }}/${that.dataset.id}`;
                 }
             })
         });

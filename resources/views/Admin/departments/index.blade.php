@@ -1,4 +1,4 @@
-@extends('Company.layouts.app')
+@extends('Admin.layouts.app')
 
 @section('content')
     <div class="app-content content">
@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول اتفاقيات الشركة</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول اقسام المنتجات</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الاتفاقيات
+                                    <li class="breadcrumb-item active">ادارة الاقسام
                                     </li>
                                 </ol>
                             </div>
@@ -36,44 +36,45 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">الاتفاقيات</h4>
+                                <h4 class="card-title">الاقسام</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <a href="{{ route('company.conventions.create') }}" class="btn btn-success">اضف جديد</a>
+                                        <a href="{{ route('admin.departments.create') }}" class="btn btn-success">اضف جديد</a>
                                         <a href="" class="btn btn-primary">تحديث</a>
                                         <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
                                     <!-- Table with outer spacing -->
                                     <div class="table-responsive">
-                                        <table class="table zero-configuration">
+                                        <table class="table">
                                             <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>البند الاساسي</th>
-                                                    <th>اتفاقية الراتب</th>
-                                                    <th>الاجراءات</th>
-                                                </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>التنصيف</th>
+                                                <th>الاجراءات</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($elements as $index=>$element)
                                                     <tr>
-                                                        <td>{{ $index +1 }}</td>
-                                                        <td>{{ Str::limit(strip_tags($element->main_items),20) }}</td>
-                                                        <td>{{ $element->agreement->title }}</td>
-                                                        <td>
-                                                            <form action="{{ route('company.conventions.destroy',$element->id) }}" method="post">
-                                                                @method('delete')
-                                                                {{ csrf_field() }}
-                                                                <a href="{{ route('company.conventions.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
-                                                                <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                                    <i class="fa fa-trash"></i>
-                                                                    حذف
-                                                                </button>
-                                                            </form>
-                                                        </td>
-                                                    </tr>
+                                                <th scope="row">{{ $index +1 }}</th>
+                                                <td>{{ $element->title }}</td>
+                                                <td>
+
+                                                    <form action="{{ route('admin.departments.destroy',$element->id) }}" method="post">
+                                                        @method('delete')
+                                                        {{ csrf_field() }}
+                                                        <a href="{{ route('admin.departments.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+                                                        @if(!$loop->first)
+                                                            <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
+                                                                <i class="fa fa-trash"></i>
+                                                                حذف
+                                                            </button>
+                                                        @endif
+                                                    </form>
+                                                </td>
+                                            </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -91,10 +92,6 @@
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.min.js"></script>
-    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
-    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
-    <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
     <script>
         $('.delete_class').on('click',function (e) {
@@ -117,7 +114,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('company.conventions.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('admin.departments.destroy') }}/${that.dataset.id}`;
                 }
             })
         });

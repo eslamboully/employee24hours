@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول اتفاقيات الشركة</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول المنتجات</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الاتفاقيات
+                                    <li class="breadcrumb-item active">ادارة المنتجات
                                     </li>
                                 </ol>
                             </div>
@@ -36,12 +36,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">الاتفاقيات</h4>
+                                <h4 class="card-title">المنتجات</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <a href="{{ route('company.conventions.create') }}" class="btn btn-success">اضف جديد</a>
+                                        <a href="{{ route('company.products.create') }}" class="btn btn-success">اضف جديد</a>
                                         <a href="" class="btn btn-primary">تحديث</a>
                                         <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
@@ -49,24 +49,52 @@
                                     <div class="table-responsive">
                                         <table class="table zero-configuration">
                                             <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>البند الاساسي</th>
-                                                    <th>اتفاقية الراتب</th>
-                                                    <th>الاجراءات</th>
-                                                </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>المنتج</th>
+                                                <th>الحالة</th>
+                                                <th>الكمية</th>
+                                                <th>القسم</th>
+                                                <th>الموصى بها</th>
+                                                <th>التفعيل</th>
+                                                <th>صورة</th>
+                                                <th>الاجراءات</th>
+                                            </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($elements as $index=>$element)
                                                     <tr>
-                                                        <td>{{ $index +1 }}</td>
-                                                        <td>{{ Str::limit(strip_tags($element->main_items),20) }}</td>
-                                                        <td>{{ $element->agreement->title }}</td>
+                                                        <th scope="row">{{ $index +1 }}</th>
+                                                        <td>{{ $element->title }}</td>
+                                                        @if($element->status == 'hot')
+                                                            <td>ساخن</td>
+                                                        @elseif($element->status == 'cold')
+                                                            <td>بارد</td>
+                                                        @else
+                                                            <td>غير غذائي</td>
+                                                        @endif
+                                                        <td>{{ $element->quantity }}</td>
+                                                        <td>{{ $element->department->title }}</td>
                                                         <td>
-                                                            <form action="{{ route('company.conventions.destroy',$element->id) }}" method="post">
+                                                            @if($element->recommended == 0)
+                                                                <button type="button" class="btn btn-warning product-recommended-button" data-id="{{ $element->id }}">منتج موصي</button>
+                                                            @else
+                                                                <button type="button" class="btn btn-warning product-recommended-button" data-id="{{ $element->id }}">الغاء التوصيه</button>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if($element->block == 0)
+                                                                <button type="button" class="btn btn-info product-block-button" data-id="{{ $element->id }}">ايقاف المنتج</button>
+                                                            @else
+                                                                <button type="button" class="btn btn-info product-block-button" data-id="{{ $element->id }}">تفعيل المنتج</button>
+                                                            @endif
+                                                        </td>
+                                                        <td><img src="{{ url('uploads/products/'.$element->photo) }}" style="width: 50px;height: 50px" alt=""></td>
+                                                        <td>
+                                                            <form action="{{ route('company.products.destroy',$element->id) }}" method="post">
                                                                 @method('delete')
                                                                 {{ csrf_field() }}
-                                                                <a href="{{ route('company.conventions.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+                                                                <a href="{{ route('company.products.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
                                                                 <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
                                                                     <i class="fa fa-trash"></i>
                                                                     حذف
@@ -97,6 +125,42 @@
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
     <script>
+        $('.product-block-button').on('click',function (e) {
+            e.preventDefault();
+            let that = this;
+
+            $.ajax({
+                url: `{{ route('company.products.block') }}/${that.dataset.id}`,
+                method: 'post',
+                data : {_token: "{{ csrf_token() }}"},
+                success: (data) => {
+                    if(data.data == 0) {
+                        $(this).html('ايقاف المنتج');
+                    }else{
+                        $(this).html('تفعيل المنتج');
+                    }
+                }
+            });
+        });
+
+        $('.product-recommended-button').on('click',function (e) {
+            e.preventDefault();
+            let that = this;
+
+            $.ajax({
+                url: `{{ route('company.recommended-products.destroy') }}/${that.dataset.id}`,
+                method: 'post',
+                data : {_token: "{{ csrf_token() }}"},
+                success: (data) => {
+                    if(data.data == 0) {
+                        $(this).html('منتج موصي');
+                    }else{
+                        $(this).html('الغاء التوصية');
+                    }
+                }
+            });
+        });
+
         $('.delete_class').on('click',function (e) {
             e.preventDefault();
             let that = this;
@@ -117,7 +181,7 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('company.conventions.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('company.products.destroy') }}/${that.dataset.id}`;
                 }
             })
         });

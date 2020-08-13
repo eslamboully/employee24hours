@@ -123,4 +123,69 @@
             <span class="menu-title" data-i18n="Second Level">الاعدادات</span>
         </a>
     </li>
+
+    <li class=" navigation-header"><span>ادارة الاعمال</span>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-aperture"></i>
+            <span class="menu-title" data-i18n="Menu Levels">المنتجات</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('products') }}">
+                <a href="{{ route('company.products.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        المنتجات
+                    </span>
+                </a>
+            </li>
+            <li class="{{ active('recommended-products') }}">
+                <a href="{{ route('company.recommended-products') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        المنتجات الموصى بها
+                    </span>
+                </a>
+            </li>
+            <li class="{{ active('block-products') }}">
+                <a href="{{ route('company.block-products') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        المنتجات الغير مفعلة
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('company.products.create') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اضف منتج
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-book-open"></i>
+            <span class="menu-title" data-i18n="Menu Levels">الوجبات</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('meals') }}">
+                <a href="{{ route('company.meals.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الوجبات
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('company.meals.create') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اضف وجبة
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
 </ul>

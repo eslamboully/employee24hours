@@ -3,6 +3,7 @@
 use App\Models\Admin;
 use App\Models\Agreement;
 use App\Models\Company;
+use App\Models\Department;
 use App\Models\Employee;
 use App\Models\Language;
 use Illuminate\Database\Seeder;
@@ -81,6 +82,13 @@ class AdminSeeder extends Seeder
         $agreement3->translateOrNew('ar')->title = 'مكافأه علي نسبة انجاز';
         $agreement3->translateOrNew('en')->title = 'Reward for achievement';
         $agreement3->translateOrNew('fr')->title = 'Récompense pour réussite';
+        $agreement3->save();
+
+        // Un category Department for product
+        $agreement3 = new Department();
+        $agreement3->translateOrNew('ar')->title = 'غير مصنف';
+        $agreement3->translateOrNew('en')->title = 'unclassified';
+        $agreement3->translateOrNew('fr')->title = 'non classé';
         $agreement3->save();
 
     }

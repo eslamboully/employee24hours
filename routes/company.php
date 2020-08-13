@@ -25,13 +25,21 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         Route::resource('conventions','ConventionController')->except(['destroy']);
         Route::get('conventions/destroy/{id?}','ConventionController@destroy')->name('conventions.destroy');
 
-        // Companies Crud System
-//        Route::resource('companies','CompanyController')->except(['destroy']);
-//        Route::get('companies/destroy/{id?}','CompanyController@destroy')->name('companies.destroy');
+        // Products Crud System
+        Route::resource('products','ProductController')->except(['destroy']);
+        Route::get('products/destroy/{id?}','ProductController@destroy')->name('products.destroy');
 
-        // Plans Crud System
-//        Route::resource('plans','PlanController')->except(['destroy']);
-//        Route::get('plans/destroy/{id?}','PlanController@destroy')->name('plans.destroy');
+        // Block Product
+        Route::get('block-products','ProductController@blockProductIndex')->name('block-products');
+        Route::post('products/block/{id?}','ProductController@blockProduct')->name('products.block');
+
+        // Recommended Products System
+        Route::get('recommended-products','ProductController@recommended')->name('recommended-products');
+        Route::post('recommended-products/destroy/{id?}','ProductController@recommendedDestroy')->name('recommended-products.destroy');
+
+        // Meals Crud System
+        Route::resource('meals','MealController')->except(['destroy']);
+        Route::get('meals/destroy/{id?}','MealController@destroy')->name('meals.destroy');
     });
 
 

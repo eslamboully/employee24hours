@@ -49,6 +49,10 @@ Route::group(['prefix' => 'admin-panel','as' => 'admin.'], function () {
         Route::resource('agreements','AgreementController')->except(['destroy']);
         Route::get('agreements/destroy/{id?}','AgreementController@destroy')->name('agreements.destroy');
 
+        // Departments Crud System
+        Route::resource('departments','DepartmentController')->except(['destroy']);
+        Route::get('departments/destroy/{id?}','DepartmentController@destroy')->name('departments.destroy');
+
     });
 
 

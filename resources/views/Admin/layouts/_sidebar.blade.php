@@ -103,6 +103,11 @@
             <span class="menu-title" data-i18n="Second Level">الانظمة الداعمة</span>
         </a>
     </li>
+    <li class="nav-item {{ active('departments') }}">
+        <a href="{{ route('admin.departments.index') }}"><i class="feather icon-shopping-cart"></i>
+            <span class="menu-title" data-i18n="Second Level">اقسام المنتجات</span>
+        </a>
+    </li>
     <li class=" navigation-header"><span>الوظائف والاعضاء</span>
     </li>
     <li class=" nav-item">
