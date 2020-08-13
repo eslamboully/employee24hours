@@ -196,13 +196,13 @@ class ProductController extends Controller
     public function recommended()
     {
         $elements = Product::where('recommended',1)->where('company_id',auth('company')->user()->id)->get();
-        return view('company.products.recommended-products',compact('elements'));
+        return view('Company.products.recommended-products',compact('elements'));
     }
 
     public function blockProductIndex()
     {
         $elements = Product::where('block',1)->where('company_id',auth('company')->user()->id)->get();
-        return view('company.products.block-products',compact('elements'));
+        return view('Company.products.block-products',compact('elements'));
     }
 
     public function recommendedDestroy($id)
