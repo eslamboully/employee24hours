@@ -65,6 +65,14 @@
         </a>
         <ul class="menu-content">
             <li>
+                <a href="{{ route('company.job-types.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اقسام الوظائف
+                    </span>
+                </a>
+            </li>
+            <li>
                 <a href="#">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
