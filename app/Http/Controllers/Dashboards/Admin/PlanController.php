@@ -53,7 +53,6 @@ class PlanController extends Controller
         foreach (current_langs() as $lang) {
             $plan->translateOrNew($lang)->title = $data[$lang]['title'];
             $plan->translateOrNew($lang)->description = $data[$lang]['description'];
-            $plan->translateOrNew($lang)->salary_type = $data[$lang]['salary_type'];
         }
         // Save Other Tables
         $plan->price = $data['price'];
@@ -111,7 +110,6 @@ class PlanController extends Controller
         foreach (current_langs() as $lang) {
             $plan->translateOrNew($lang)->title = $data[$lang]['title'];
             $plan->translateOrNew($lang)->description = $data[$lang]['description'];
-            $plan->translateOrNew($lang)->salary_type = $data[$lang]['salary_type'];
         }
         // Save Other Tables
         $plan->price = $data['price'];

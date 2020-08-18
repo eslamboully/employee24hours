@@ -19,7 +19,11 @@ class AgreementController extends Controller
     public function index()
     {
         $elements = Agreement::with(['translations'])->get();
-        return view('Admin.agreements.index',compact('elements'));
+        if (im('admin')->hasPermissionTo('read_agreements')) {
+            return view('Admin.agreements.index',compact('elements'));
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -29,7 +33,11 @@ class AgreementController extends Controller
      */
     public function create()
     {
-        return view('Admin.agreements.create');
+        if (im('admin')->hasPermissionTo('create_agreements')) {
+            return view('Admin.agreements.create');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -78,7 +86,11 @@ class AgreementController extends Controller
     public function edit($id)
     {
         $element = Agreement::find($id);
-        return view('Admin.agreements.edit',compact('element'));
+        if (im('admin')->hasPermissionTo('update_agreements')) {
+            return view('Admin.agreements.edit',compact('element'));
+        } else {
+            abort(403);
+        }
     }
 
     /**

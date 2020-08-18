@@ -40,6 +40,22 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         // Meals Crud System
         Route::resource('meals','MealController')->except(['destroy']);
         Route::get('meals/destroy/{id?}','MealController@destroy')->name('meals.destroy');
+
+        // Questions Crud System
+        Route::resource('questions','QuestionController')->except(['destroy']);
+        Route::get('questions/destroy/{id?}','QuestionController@destroy')->name('questions.destroy');
+
+        // Service Categories Crud System
+        Route::resource('service-categories','ServiceCategoryController')->except(['destroy']);
+        Route::get('service-categories/destroy/{id?}','ServiceCategoryController@destroy')->name('service-categories.destroy');
+
+        // Service Crud System
+        Route::resource('services','ServiceController')->except(['destroy']);
+        Route::get('services/destroy/{id?}','ServiceController@destroy')->name('services.destroy');
+
+        // Corporation Crud System
+        Route::resource('corporations','CorporationController')->except(['destroy']);
+        Route::get('corporations/destroy/{id?}','CorporationController@destroy')->name('corporations.destroy');
     });
 
 

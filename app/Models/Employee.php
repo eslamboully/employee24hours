@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 
 class Employee extends Authenticatable
 {
@@ -37,9 +38,24 @@ class Employee extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getLanguagesAttribute($value)
+    public function skills()
     {
-        $arr = json_decode($value);
-        return $arr;
+        return $this->belongsToMany(Skill::class, 'skill_employee', 'employee_id', 'skill_id');
+    }
+
+    public function getSkillsId()
+    {
+//        $skills = $this->skills()->pluck('id')->toArray();
+        $skills = DB::table('skill_employee')->where('employee_id',$this->id)->pluck('skill_id')->toArray();
+        return $skills;
+    }
+
+    public function languages()
+    {
+        $languages = json_decode($this->languages,JSON_UNESCAPED_UNICODE);
+        if ($languages){
+            return $languages;
+        }
+        return [];
     }
 }

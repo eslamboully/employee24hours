@@ -41,7 +41,11 @@
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
+                                        @if(im('admin')->hasPermissionTo('create_agreements'))
                                         <a href="{{ route('admin.agreements.create') }}" class="btn btn-success">اضف جديد</a>
+                                        @else
+                                            <a href="#" class="btn btn-success disabled" disabled>اضف جديد</a>
+                                        @endif
                                         <a href="" class="btn btn-primary">تحديث</a>
                                         <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
@@ -65,11 +69,22 @@
                                                     <form action="{{ route('admin.agreements.destroy',$element->id) }}" method="post">
                                                         @method('delete')
                                                         {{ csrf_field() }}
-                                                        <a href="{{ route('admin.agreements.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
-                                                        <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                            <i class="fa fa-trash"></i>
-                                                            حذف
-                                                        </button>
+                                                        @if(im('admin')->hasPermissionTo('update_agreements'))
+                                                            <a href="{{ route('admin.agreements.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
+                                                        @else
+                                                            <a href="#" class="btn btn-success disabled"><i class="fa fa-edit"></i> تعديل</a>
+                                                        @endif
+                                                        @if(im('admin')->hasPermissionTo('delete_agreements'))
+                                                            <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
+                                                                <i class="fa fa-trash"></i>
+                                                                حذف
+                                                            </button>
+                                                        @else
+                                                            <a class="btn btn-danger disabled" disabled>
+                                                                <i class="fa fa-trash"></i>
+                                                                حذف
+                                                            </a>
+                                                        @endif
                                                     </form>
                                                 </td>
                                             </tr>

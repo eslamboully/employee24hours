@@ -52,7 +52,6 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>الاسم</th>
-                                                <th>استلام الراتب</th>
                                                 <th>السعر</th>
                                                 <th>عدد الوظائف المسموحة</th>
                                                 <th>الاجراءات</th>
@@ -63,7 +62,6 @@
                                                     <tr>
                                                 <th scope="row">{{ $index +1 }}</th>
                                                 <td>{{ $element->title }}</td>
-                                                <td>{{ $element->salary_type }}</td>
                                                 <td>{{ $element->price }} دولار</td>
                                                 <td>{{ $element->number_of_jobs }} وظيفة</td>
                                                 <td>

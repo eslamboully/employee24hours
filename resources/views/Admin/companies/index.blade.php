@@ -72,9 +72,17 @@
                                                         <td><a href="#" class="btn btn-info">الموظفين التابعين</a></td>
                                                         <td>
                                                             @if($element->block == 0)
+                                                                @if(im('admin')->hasPermissionTo('create_blacklist'))
                                                                 <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لوقف الحساب</button>
+                                                                @else
+                                                                <button type="button" class="btn btn-warning disabled" disabled>اضغط لوقف الحساب</button>
+                                                                @endif
                                                             @else
-                                                                <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لتفعيل الحساب</button>
+                                                                @if(im('admin')->hasPermissionTo('create_blacklist'))
+                                                                    <button type="button" class="btn btn-warning company-block-button" data-id="{{ $element->id }}">اضغط لتفعيل الحساب</button>
+                                                                @else
+                                                                    <button type="button" class="btn btn-warning disabled" disabled>اضغط لتفعيل الحساب</button>
+                                                                @endif
                                                             @endif
                                                         </td>
                                                         <td>
@@ -82,12 +90,11 @@
                                                             <form action="{{ route('admin.companies.destroy',$element->id) }}" method="post">
                                                                 @method('delete')
                                                                 {{ csrf_field() }}
+                                                                @if(im('admin')->hasPermissionTo('update_companies'))
                                                                 <a href="#" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>
-{{--                                                                <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">--}}
-{{--                                                                    <i class="fa fa-trash"></i>--}}
-{{--                                                                    حذف--}}
-{{--                                                                </button>--}}
-{{--                                                                {{ route('admin.companies.edit',$element->id) }}--}}
+                                                                @else
+                                                                    <a href="#" class="btn btn-success disabled"><i class="fa fa-edit"></i> تعديل</a>
+                                                                @endif
                                                             </form>
                                                         </td>
                                                     </tr>

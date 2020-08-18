@@ -174,48 +174,25 @@
                                                                 <div class="controls">
                                                                     <label for="account-birth-date">اللغات المتحدث بها</label>
                                                                     <select name="languages[]" id="" class="form-control select2" multiple="multiple">
-                                                                        <option {{ in_array('Afrikaans',auth('employee')->user()->languages) ? 'selected' : '' }} value="Afrikaans">Afrikaans</option>
-                                                                        <option {{ in_array('Albanian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Albanian">Albanian</option>
-                                                                        <option {{ in_array('Arabic',auth('employee')->user()->languages) ? 'selected' : '' }} value="Arabic">Arabic</option>
-                                                                        <option {{ in_array('Armenian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Armenian">Armenian</option>
-                                                                        <option {{ in_array('Basque',auth('employee')->user()->languages) ? 'selected' : '' }} value="Basque">Basque</option>
-                                                                        <option {{ in_array('Bengali',auth('employee')->user()->languages) ? 'selected' : '' }} value="Bengali">Bengali</option>
-                                                                        <option {{ in_array('Bulgarian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Bulgarian">Bulgarian</option>
-                                                                        <option {{ in_array('Catalan',auth('employee')->user()->languages) ? 'selected' : '' }} value="Catalan">Catalan</option>
-                                                                        <option {{ in_array('Cambodian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Cambodian">Cambodian</option>
-                                                                        <option {{ in_array('Chinese',auth('employee')->user()->languages) ? 'selected' : '' }} value="Chinese">Chinese (Mandarin)</option>
-                                                                        <option {{ in_array('Croatian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Croatian">Croatian</option>
-                                                                        <option {{ in_array('Czech',auth('employee')->user()->languages) ? 'selected' : '' }} value="Czech">Czech</option>
-                                                                        <option {{ in_array('Dutch',auth('employee')->user()->languages) ? 'selected' : '' }} value="Dutch">Dutch</option>
-                                                                        <option {{ in_array('English',auth('employee')->user()->languages) ? 'selected' : '' }} value="English">English</option>
-                                                                        <option {{ in_array('French',auth('employee')->user()->languages) ? 'selected' : '' }} value="French">French</option>
-                                                                        <option {{ in_array('German',auth('employee')->user()->languages) ? 'selected' : '' }} value="German">German</option>
-                                                                        <option {{ in_array('Greek',auth('employee')->user()->languages) ? 'selected' : '' }} value="Greek">Greek</option>
-                                                                        <option {{ in_array('Hindi',auth('employee')->user()->languages) ? 'selected' : '' }} value="Hindi">Hindi</option>
-                                                                        <option {{ in_array('Hungarian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Hungarian">Hungarian</option>
-                                                                        <option {{ in_array('Icelandic',auth('employee')->user()->languages) ? 'selected' : '' }} value="Icelandic">Icelandic</option>
-                                                                        <option {{ in_array('Indonesian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Indonesian">Indonesian</option>
-                                                                        <option {{ in_array('Irish',auth('employee')->user()->languages) ? 'selected' : '' }} value="Irish">Irish</option>
-                                                                        <option {{ in_array('Italian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Italian">Italian</option>
-                                                                        <option {{ in_array('Japanese',auth('employee')->user()->languages) ? 'selected' : '' }} value="Japanese">Japanese</option>
-                                                                        <option {{ in_array('Javanese',auth('employee')->user()->languages) ? 'selected' : '' }} value="Javanese">Javanese</option>
-                                                                        <option {{ in_array('Korean',auth('employee')->user()->languages) ? 'selected' : '' }} value="Korean">Korean</option>
-                                                                        <option {{ in_array('Latin',auth('employee')->user()->languages) ? 'selected' : '' }} value="Latin">Latin</option>
-                                                                        <option {{ in_array('Lithuanian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Lithuanian">Lithuanian</option>
-                                                                        <option {{ in_array('Mongolian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Mongolian">Mongolian</option>
-                                                                        <option {{ in_array('Norwegian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Norwegian">Norwegian</option>
-                                                                        <option {{ in_array('Persian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Persian">Persian</option>
-                                                                        <option {{ in_array('Polish',auth('employee')->user()->languages) ? 'selected' : '' }} value="Polish">Polish</option>
-                                                                        <option {{ in_array('Portuguese',auth('employee')->user()->languages) ? 'selected' : '' }} value="Portuguese">Portuguese</option>
-                                                                        <option {{ in_array('Quechua',auth('employee')->user()->languages) ? 'selected' : '' }} value="Quechua">Quechua</option>
-                                                                        <option {{ in_array('Romanian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Romanian">Romanian</option>
-                                                                        <option {{ in_array('Russian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Russian">Russian</option>
-                                                                        <option {{ in_array('Serbian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Serbian">Serbian</option>
-                                                                        <option {{ in_array('Slovak',auth('employee')->user()->languages) ? 'selected' : '' }} value="Slovak">Slovak</option>
-                                                                        <option {{ in_array('Slovenian',auth('employee')->user()->languages) ? 'selected' : '' }} value="Slovenian">Slovenian</option>
-                                                                        <option {{ in_array('Spanish',auth('employee')->user()->languages) ? 'selected' : '' }} value="Spanish">Spanish</option>
-                                                                        <option {{ in_array('Swedish',auth('employee')->user()->languages) ? 'selected' : '' }} value="Swedish">Swedish</option>
-                                                                        <option {{ in_array('Turkish',auth('employee')->user()->languages) ? 'selected' : '' }} value="Turkish">Turkish</option>
+                                                                        @foreach(getLanguages() as $language)
+                                                                            <option
+                                                                                {{ in_array($language,auth('employee')->user()->languages()) ? 'selected' : '' }}
+                                                                                value="{{ $language }}">{{ $language }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <div class="controls">
+                                                                    <label for="account-birth-date">المهارات</label>
+                                                                    <select name="skills[]" id="" class="form-control select2" multiple="multiple">
+                                                                        @foreach($skills as $skill)
+                                                                            <option
+                                                                                {{ in_array($skill->id,auth('employee')->user()->getSkillsId()) ? 'selected' : '' }}
+                                                                                value="{{ $skill->id }}">{{ $skill->title }}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                 </div>
                                                             </div>

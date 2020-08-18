@@ -26,7 +26,6 @@ class CreatePlansTable extends Migration
             $table->string('locale')->index();
             $table->string('title');
             $table->text('description');
-            $table->string('salary_type');
             $table->unique(['plan_id', 'locale']);
             $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
         });

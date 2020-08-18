@@ -10,6 +10,6 @@ class Plan extends Model implements TranslatableContract
 {
     use Translatable;
 
-    public $translatedAttributes = ['title', 'description','salary_type'];
+    public $translatedAttributes = ['title', 'description'];
     protected $fillable = ['price','number_of_jobs'];
 }

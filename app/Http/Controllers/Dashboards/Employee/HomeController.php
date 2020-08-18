@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboards\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\Language;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -56,7 +57,8 @@ class HomeController extends Controller {
     public function profile()
     {
         $languages = Language::all();
-        return view('Employee.profile',compact('languages'));
+        $skills = Skill::all();
+        return view('Employee.profile',compact('languages','skills'));
     }
 
     public function profile_post(Request $request)
@@ -72,6 +74,7 @@ class HomeController extends Controller {
             'work_from' => 'sometimes',
             'work_to' => 'sometimes',
             'work_days_in_week' => 'sometimes',
+            'skills' => 'sometimes',
         ]);
 
         $data = array_filter($data);
@@ -90,6 +93,11 @@ class HomeController extends Controller {
 
         $employee = Employee::find(auth('employee')->user()->id);
         $employee->update($data);
+
+        // Relation Columns
+        if ($request->get('skills')) {
+            $employee->skills()->sync($data['skills']);
+        }
 
         Session::flash('success', 'Profile Updated Successfully');
         return redirect()->back();

@@ -27,6 +27,11 @@ Route::group(['prefix' => 'admin-panel','as' => 'admin.'], function () {
         Route::resource('languages','LanguageController')->except(['destroy']);
         Route::get('languages/destroy/{id?}','LanguageController@destroy')->name('languages.destroy');
 
+        // Admins Crud System
+        Route::resource('admins','AdminController')->except(['destroy']);
+        Route::get('admins/destroy/{id?}','AdminController@destroy')->name('admins.destroy');
+        Route::post('admins/block/{id?}','AdminController@addBlockOrRemove')->name('admins.block');
+
         // Companies Crud System
         Route::resource('companies','CompanyController')->except(['destroy']);
         Route::get('companies/destroy/{id?}','CompanyController@destroy')->name('companies.destroy');
@@ -52,6 +57,10 @@ Route::group(['prefix' => 'admin-panel','as' => 'admin.'], function () {
         // Departments Crud System
         Route::resource('departments','DepartmentController')->except(['destroy']);
         Route::get('departments/destroy/{id?}','DepartmentController@destroy')->name('departments.destroy');
+
+        // Skills Crud System
+        Route::resource('skills','SkillController')->except(['destroy']);
+        Route::get('skills/destroy/{id?}','SkillController@destroy')->name('skills.destroy');
 
     });
 

@@ -19,10 +19,17 @@ class AdminSeeder extends Seeder
     public function run()
     {
         // Super Admin
-        $admin = Admin::create([
+        $super_admin = Admin::create([
             'name' => 'Super Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin')
+        ]);
+
+        // Writer Admin
+        $writer_admin = Admin::create([
+            'name' => 'Writer Admin',
+            'email' => 'writer@writer.com',
+            'password' => bcrypt('writer')
         ]);
 
         // Company Test Account
@@ -37,7 +44,7 @@ class AdminSeeder extends Seeder
             'name' => 'Employee Account',
             'email' => 'employee@employee.com',
             'password' => bcrypt('employee'),
-            'languages' => 'Arabic, English',
+            'languages' => '["Arabic","English"]',
             'work_from' => '1:00 AM',
             'work_to' => '9:00 PM',
             'work_days_in_week' => '4'
@@ -90,6 +97,7 @@ class AdminSeeder extends Seeder
         $agreement3->translateOrNew('en')->title = 'unclassified';
         $agreement3->translateOrNew('fr')->title = 'non classé';
         $agreement3->save();
+
 
     }
 }

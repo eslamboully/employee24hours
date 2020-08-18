@@ -84,16 +84,6 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-12">
-                                                                                <div class="form-group row">
-                                                                                    <div class="col-md-4">
-                                                                                        <span>خيارات استلام الراتب</span>
-                                                                                    </div>
-                                                                                    <div class="col-md-8">
-                                                                                        <input type="text" id="first-name" class="form-control" name="{{ $language->locale }}[salary_type]" value="{{ old($language->locale)["salary_type"] }}" placeholder="خيارات الراتب">
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
                                                                         </div>
                                                                         @endforeach
                                                                     </div>
@@ -115,7 +105,7 @@
                                                     <div class="col-12">
                                                         <div class="form-group row">
                                                             <div class="col-md-4">
-                                                                <span>عدد الوظائف المسموحة</span>
+                                                                <span>عدد الاعلانات المسموحة</span>
                                                             </div>
                                                             <div class="col-md-8">
                                                                 <input type="number" id="first-name" class="form-control" name="number_of_jobs" value="{{ old("number_of_jobs") }}" placeholder="عدد الوظائف">

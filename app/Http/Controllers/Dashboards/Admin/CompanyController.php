@@ -17,7 +17,11 @@ class CompanyController extends Controller
     public function index()
     {
         $elements = Company::all();
-        return view('Admin.companies.index',compact('elements'));
+        if (im('admin')->hasPermissionTo('read_companies')) {
+            return view('Admin.companies.index',compact('elements'));
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -27,7 +31,11 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('Admin.companies.create');
+        if (im('admin')->hasPermissionTo('create_companies')) {
+            return view('Admin.companies.create');
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -46,7 +54,7 @@ class CompanyController extends Controller
         ]);
 
         if ($request->file('photo')) {
-            $image = $request->file('file');
+            $image = $request->file('photo');
             $name = time().'.'.$image->getClientOriginalExtension();
             $destinationPath = public_path('/uploads/companies/avatar');
             $image->move($destinationPath, $name);
@@ -78,7 +86,11 @@ class CompanyController extends Controller
     public function edit($id)
     {
         $element = Company::find($id);
-        return view('Admin.companies.edit',compact('element'));
+        if (im('admin')->hasPermissionTo('update_companies')) {
+            return view('Admin.companies.edit',compact('element'));
+        } else {
+            abort(403);
+        }
     }
 
     /**

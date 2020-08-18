@@ -10,6 +10,29 @@
     </li>
     <li class=" nav-item">
         <a href="#"><i class="feather icon-aperture"></i>
+            <span class="menu-title" data-i18n="Menu Levels">الشركات التابعة</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('corporations') }}">
+                <a href="{{ route('company.corporations.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الشركات التابعة
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('company.corporations.create') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اضف شركة تابعة
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-aperture"></i>
             <span class="menu-title" data-i18n="Menu Levels">الاتفاقيات</span>
         </a>
         <ul class="menu-content">
@@ -114,17 +137,12 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="#"><i class="feather icon-user"></i>
-            <span class="menu-title" data-i18n="Second Level">الاعمال الموكلة</span>
-        </a>
-    </li>
-    <li class="nav-item">
         <a href="#"><i class="feather icon-settings"></i>
             <span class="menu-title" data-i18n="Second Level">الاعدادات</span>
         </a>
     </li>
 
-    <li class=" navigation-header"><span>ادارة الاعمال</span>
+    <li class=" navigation-header"><span>ادارة اعمال استلام الطلبات</span>
     </li>
     <li class=" nav-item">
         <a href="#"><i class="feather icon-aperture"></i>
@@ -183,6 +201,62 @@
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         اضف وجبة
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class=" navigation-header"><span>الاستقبال والاستعلامات</span>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-help-circle"></i>
+            <span class="menu-title" data-i18n="Menu Levels">الاسئلة الشائعة</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('questions') }}">
+                <a href="{{ route('company.questions.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الاسئلة
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('company.questions.create') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اضف سؤال
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-command"></i>
+            <span class="menu-title" data-i18n="Menu Levels">الخدمات</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('service-categories') }}">
+                <a href="{{ route('company.service-categories.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الاقسام
+                    </span>
+                </a>
+            </li>
+            <li class="{{ active('services') }}">
+                <a href="{{ route('company.services.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الخدمات
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('company.services.create') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اضف خدمة
                     </span>
                 </a>
             </li>
