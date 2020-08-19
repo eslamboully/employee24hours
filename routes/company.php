@@ -62,8 +62,9 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         Route::get('job-types/destroy/{id?}','JobTypeController@destroy')->name('job-types.destroy');
 
         // Jobs Crud System
-        Route::resource('jobs','JobsController')->except(['destroy']);
-        Route::get('jobs/destroy/{id?}','JobsController@destroy')->name('jobs.destroy');
+        Route::resource('jobs','JobController')->except(['destroy']);
+        Route::post('jobs/parent/ajax/{id?}','JobController@parent_ajax')->name('jobs.parent.ajax');
+        Route::get('jobs/destroy/{id?}','JobController@destroy')->name('jobs.destroy');
     });
 
 

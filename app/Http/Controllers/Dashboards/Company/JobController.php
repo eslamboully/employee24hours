@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Agreement;
 use App\Models\Language;
 use App\Models\Job;
+use App\Models\JobType;
+use App\Models\Convention;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -19,18 +21,11 @@ class JobController extends Controller
      */
     public function index()
     {
-        if (request()->has('type')) {
-            $type = Job::find(request('type'));
-            if ($type) {
-                $elements = $type->children;
-            }
-        } else {
-            $type = null;
             $elements = Job::with(['translations'])
-                ->where('parent_id',null)
+                ->where('company_id',null)
                 ->get();
-        }
-        return view('Company.job-types.index',compact('elements','type'));
+
+        return view('Company.jobs.index',compact('elements','type'));
     }
 
     /**
@@ -40,9 +35,10 @@ class JobController extends Controller
      */
     public function create()
     {
-        $categories = Job::where('parent_id',null)->get();
+        $parents = JobType::where('parent_id', null)->get();
+        $conventions = Convention::all();
 
-        return view('Company.job-types.create',compact('categories'));
+        return view('Company.jobs.create',compact('parents','conventions'));
     }
 
     /**
@@ -55,28 +51,32 @@ class JobController extends Controller
     {
         $langs_rules = $this->langs_rules();
         $rules = [
-
+            'job_type_id' => 'required|numeric',
+            'convention_id' => 'required|numeric',
+            'work_from' => 'required',
+            'work_to' => 'required',
+            'work_days_in_week' => 'required|numeric',
+            'salary' => 'required|numeric',
+            'helper_type' => 'required|numeic',
         ];
         $data = $request->validate(array_merge($langs_rules,$rules));
 
-        $jobtype = new Job();
+        $job = new Job();
 
         // Save With Database Language Not Dimsav Locales
         foreach (current_langs() as $lang) {
-            $jobtype->translateOrNew($lang)->title = $data[$lang]['title'];
+            $job->translateOrNew($lang)->title = $data[$lang]['title'];
+            $job->translateOrNew($lang)->description = $data[$lang]['description'];
         }
         // Save Other Tables
-        $jobtype->company_id = auth('company')->user()->id;
-
-        if ($request->has('parent_id')) {
-            $jobtype->parent_id = $request->get('parent_id');
-        }
+        $job->company_id = auth('company')->user()->id;
+        $job->convention_id = $data['convention_id'];
 
         // Save The Model
-        $jobtype->save();
+        $job->save();
 
         Session::flash('success', 'Added Successfully');
-        return redirect()->route('company.job-types.index');
+        return redirect()->route('company.jobs.index');
     }
 
     /**
@@ -100,7 +100,7 @@ class JobController extends Controller
     {
         $element = Job::find($id);
         $categories = Job::where('parent_id',null)->get();
-        return view('Company.job-types.edit',compact('element','categories'));
+        return view('Company.jobs.edit',compact('element','categories'));
     }
 
     /**
@@ -118,25 +118,33 @@ class JobController extends Controller
         ];
         $data = $request->validate(array_merge($langs_rules,$rules));
 
-        $jobtype = Job::find($id);
+        $job = Job::find($id);
 
         // Save With Database Language Not Dimsav Locales
         foreach (current_langs() as $lang) {
-            $jobtype->translateOrNew($lang)->title = $data[$lang]['title'];
+            $job->translateOrNew($lang)->title = $data[$lang]['title'];
         }
 
-        $jobtype->company_id = auth('company')->user()->id;
+        $job->company_id = auth('company')->user()->id;
 
         if ($request->has('parent_id')) {
-            $jobtype->parent_id = $request->get('parent_id');
+            $job->parent_id = $request->get('parent_id');
         }
 
         // Save The Model
-        $jobtype->save();
+        $job->save();
 
 
         Session::flash('success', 'Edited Successfully');
-        return redirect()->route('company.job-types.index');
+        return redirect()->route('company.jobs.index');
+    }
+
+    public function parent_ajax($id)
+    {
+        $parent = JobType::find($id);
+        $parent->children;
+
+        return response()->json(['data' => $parent->children,'message' => null , 'status' => 1]);
     }
 
     /**
@@ -147,11 +155,11 @@ class JobController extends Controller
      */
     public function destroy($id = null)
     {
-        $jobtype = Job::find($id);
-        $jobtype->delete();
+        $job = Job::find($id);
+        $job->delete();
 
         Session::flash('success', 'Deleted Successfully');
-        return redirect()->route('company.job-types.index');
+        return redirect()->route('company.jobs.index');
     }
 
     public function langs_rules()
