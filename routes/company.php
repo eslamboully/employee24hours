@@ -60,6 +60,10 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         // Job Types Crud System
         Route::resource('job-types','JobTypeController')->except(['destroy']);
         Route::get('job-types/destroy/{id?}','JobTypeController@destroy')->name('job-types.destroy');
+
+        // Jobs Crud System
+        Route::resource('jobs','JobsController')->except(['destroy']);
+        Route::get('jobs/destroy/{id?}','JobsController@destroy')->name('jobs.destroy');
     });
 
 
