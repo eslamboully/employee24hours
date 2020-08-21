@@ -61,7 +61,6 @@
                                                 <th>العمل من</th>
                                                 <th>حتي الساعة</th>
                                                 <th>القسم</th>
-                                                <th>العروض المقدمة</th>
                                                 <th>الحالة</th>
                                                 <th>الاجراءات</th>
                                             </tr>
@@ -76,7 +75,6 @@
                                                         <td>{{ $element->work_from }}</td>
                                                         <td>{{ $element->work_to }}</td>
                                                         <td>{{ $element->type->title }}</td>
-                                                        <td><a href="" class="btn btn-dark">عروض الوظيفة</a></td>
                                                         <td>
                                                             @if($element->status == 0)
                                                                 <button class="btn btn-success" disabled>في انتظار القبول</button>
@@ -85,19 +83,16 @@
                                                             @elseif($element->status == 2)
                                                                 <button class="btn btn-primary" disabled>وظيفة ملغية</button>
                                                             @elseif($element->status == 3)
-                                                                <button class="btn btn-primary see_refusal_details" data-refusal="{{ $element->refusal_details }}">وظائف مرفوضة : السبب</button>
+                                                                <button class="btn btn-primary" disabled>وظائف مرفوضة</button>
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <form action="{{ route('company.jobs.destroy',$element->id) }}" method="post">
-                                                                @method('delete')
+                                                            <form action="{{ route('admin.jobs.refuse',$element->id) }}" method="post">
                                                                 {{ csrf_field() }}
-                                                                @if($element->status == 3)
-                                                                    <a href="{{ route('company.jobs.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i>تعديل</a>
-                                                                @endif
-                                                                    <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                                        <i class="fa fa-trash"></i>
-                                                                        حذف
+                                                                    <button href="{{ route('admin.jobs.show',$element->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>المزيد</button>
+                                                                    <button class="btn btn-danger refuse_class" data-id="{{ $element->id }}">
+                                                                        <i class="fa fa-edit"></i>
+                                                                        رفض
                                                                     </button>
                                                             </form>
                                                         </td>
@@ -125,37 +120,31 @@
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
     <script>
-        $('.see_refusal_details').on('click',function (e) {
+        $('.refuse_class').on('click',async function (e) {
             e.preventDefault();
             let that = this;
-            let refusal_details = $(this).data('refusal');
-            Swal.fire(refusal_details);
-        });
-
-
-        $('.delete_class').on('click',function (e) {
-            e.preventDefault();
-            let that = this;
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: 'btn btn-success',
-                    cancelButton: 'btn btn-danger'
+            let id = $(this).data('id');
+            const { value: text } = await Swal.fire({
+                input: 'textarea',
+                inputPlaceholder: 'سبب الرفض...',
+                inputAttributes: {
+                    'aria-label': 'سبب الرفض...'
                 },
-                buttonsStyling: false
+                showCancelButton: true
             });
 
-            swalWithBootstrapButtons.fire({
-                title: 'هل انت متأكد من عملية المسح ؟',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'نعم احذف هذا',
-                cancelButtonText: 'الغاء وتراجع',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    window.location.href = `{{ route('company.jobs.destroy') }}/${that.dataset.id}`;
-                }
-            })
+            if (text) {
+                    $.ajax({
+                        'url' : '{{ route('admin.jobs.refuse') }}',
+                        'method' : 'post',
+                        data: {_token: '{{ csrf_token() }}',refusal_details: text,id: id},
+                        success : function () {
+                            window.location.href = '{{ route('admin.jobs.index') }}?status=3'
+                        }
+                    });
+            }
+
+
         });
     </script>
 

@@ -9,14 +9,14 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">تعديل الوظيفة</h2>
+                            <h2 class="content-header-title float-left mb-0">اضف وظيفة جديدة</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="#">الوظائف</a>
                                     </li>
-                                    <li class="breadcrumb-item active"> تعديل وظيفة
+                                    <li class="breadcrumb-item active"> اضف وظيفة
                                     </li>
                                 </ol>
                             </div>
@@ -31,7 +31,7 @@
                         <div class="col-md-12 col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">تعديل وظيفة</h4>
+                                    <h4 class="card-title">وظيفة جديد</h4>
                                 </div>
                                 <div class="card-content">
                                     <div class="card-body">
@@ -44,9 +44,8 @@
                                                 </ul>
                                             </div>
                                         @endif
-                                        <form class="form form-horizontal" action="{{ route('company.jobs.update',$element->id) }}" method="post">
+                                        <form class="form form-horizontal" action="{{ route('company.jobs.store') }}" method="post">
                                             {{ csrf_field() }}
-                                            @method('put')
                                             <div class="form-body">
                                                 <div class="row">
                                                     <div class="col-12">
@@ -71,7 +70,7 @@
                                                                                         <span>العنوان</span>
                                                                                     </div>
                                                                                     <div class="col-md-8">
-                                                                                        <input type="text" id="first-name" class="form-control" name="{{ $language->locale }}[title]" value="{{ $element->translate($language->locale)->title }}" placeholder="العنوان">
+                                                                                        <input type="text" id="first-name" class="form-control" name="{{ $language->locale }}[title]" value="{{ old($language->locale)["title"] }}" placeholder="العنوان">
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -81,7 +80,7 @@
                                                                                         <span>الوصف والشروط</span>
                                                                                     </div>
                                                                                     <div class="col-md-8">
-                                                                                        <textarea name="{{ $language->locale }}[description]" class="form-control ckeditor" placeholder="شروط الوظيفة ومواصفاتها">{{ $element->translate($language->locale)->description }}</textarea>
+                                                                                        <textarea name="{{ $language->locale }}[description]" class="form-control ckeditor" placeholder="شروط الوظيفة ومواصفاتها">{{ old($language->locale)["description"] }}</textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -96,38 +95,56 @@
                                                     <div class="col-12">
                                                         <div class="form-group row">
                                                             <div class="col-md-12">
-                                                                <label for="">اتفاقية الوظيفة</label>
                                                                 <select name="convention_id" class="form-control" id="">
                                                                     <option value="">اختر اتفاقية الوظيفة</option>
                                                                     @foreach($conventions as $convention)
-                                                                        <option {{ $convention->id == $element->convention_id ? 'selected' : '' }} value="{{ $convention->id }}">{!! $convention->main_items !!}</option>
+                                                                        <option value="{{ $convention->id }}">{!! $convention->main_items !!}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
+                                                            <div class="col-md-6">
+                                                                <select name="parent_type" class="form-control" id="">
+                                                                    <option value="">القسم رئيسي</option>
+                                                                    @foreach($parents as $parent)
+                                                                        <option value="{{ $parent->id }}">{{ $parent->title }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <select name="job_type_id" class="form-control" id="">
+                                                                    <option value="">القسم الفرعي</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
                                                             <div class="col-md-4">
-                                                                <label for="">العمل من الساعة</label>
-                                                                <input type="text" name="work_from" class="form-control pickatime" placeholder="اعمل من الساعة" value="{{ $element->work_from }}">
+                                                                <input type="text" name="work_from" class="form-control pickatime" placeholder="اعمل من الساعة" value="{{ old('work_from') }}">
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <label for="">حتي الساعة</label>
-                                                                <input type="text" name="work_to" class="form-control pickatime" placeholder="حتي الساعة" value="{{ $element->work_to }}">
+                                                                <input type="text" name="work_to" class="form-control pickatime" placeholder="حتي الساعة" value="{{ old('work_to') }}">
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <label for="">عدد ايام العمل في الاسبوع</label>
-                                                                <input type="text" name="work_days_in_week" class="form-control" placeholder="عدد الايام التي استطيع العمل بها في الاسبوع" value="{{ $element->work_days_in_week }}">
+                                                                <input type="text" name="work_days_in_week" class="form-control" placeholder="عدد الايام التي استطيع العمل بها في الاسبوع" value="{{ old('work_days_in_week') }}">
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-md-6">
-                                                                <label for="">الراتب او المبلغ</label>
-                                                                <input type="text" name="salary" class="form-control" placeholder="الراتب او المبلغ" value="{{ $element->salary }}">
+                                                                <input type="text" name="salary" class="form-control" placeholder="الراتب او المبلغ" value="{{ old('salary') }}">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <select name="helper_type" id="" class="form-control">
+                                                                    <option value="">قسم مساعد</option>
+                                                                    <option value="1">موظف استلام طلبات بدون استلام مبالغ</option>
+                                                                    <option value="2">موظف استقبال واستعلامات</option>
+                                                                    <option value="3">موظف إداري أو فني</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-8 offset-md-4">
-                                                        <button type="submit" class="btn btn-primary mr-1 mb-1">اعادة ارسال</button>
+                                                        <button type="submit" class="btn btn-primary mr-1 mb-1">حفظ</button>
                                                         <a href="{{ route('company.jobs.index') }}" class="btn btn-outline-warning mr-1 mb-1">عودة</a>
                                                     </div>
                                                 </div>

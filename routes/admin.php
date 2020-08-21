@@ -62,6 +62,11 @@ Route::group(['prefix' => 'admin-panel','as' => 'admin.'], function () {
         Route::resource('skills','SkillController')->except(['destroy']);
         Route::get('skills/destroy/{id?}','SkillController@destroy')->name('skills.destroy');
 
+        // Jobs System
+        Route::get('jobs','JobController@index')->name('jobs.index');
+        Route::get('jobs/{id}/show','JobController@show')->name('jobs.show');
+        Route::post('jobs/refuse/{id?}','JobController@refuse')->name('jobs.refuse');
+
     });
 
 

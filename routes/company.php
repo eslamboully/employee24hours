@@ -70,6 +70,9 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         Route::resource('missions','MissionController')->except(['destroy']);
         Route::get('missions/status/{id?}','MissionController@status')->name('missions.edit.status');
         Route::get('missions/destroy/{id?}','MissionController@destroy')->name('missions.destroy');
+
+        // Bids Crud System
+//        Route::get('offers/{id}','OfferController')->name('offers.index');
     });
 
 

@@ -15,7 +15,8 @@ class Job extends Model implements TranslatableContract
     public $translatedAttributes = ['title','description'];
     protected $fillable = [
         'company_id','job_type_id', 'convention_id','work_from',
-        'work_to','work_days_in_week','salary','helper_type','status'
+        'work_to','work_days_in_week','salary','helper_type','status',
+        'refusal_details'
     ];
 
     public function type()

@@ -104,9 +104,10 @@ class JobController extends Controller
      */
     public function edit($id)
     {
-        $element = Job::find($id);
-        $categories = Job::where('parent_id',null)->get();
-        return view('Company.jobs.edit',compact('element','categories'));
+        $element = Job::where(['id' => $id,'company_id' => im('company')->id,'status' => 3])->first();
+        $conventions = Convention::all();
+
+        return view('Company.jobs.edit',compact('element','conventions'));
     }
 
     /**
@@ -120,7 +121,11 @@ class JobController extends Controller
     {
         $langs_rules = $this->langs_rules();
         $rules = [
-
+            'convention_id' => 'required|numeric',
+            'work_from' => 'required',
+            'work_to' => 'required',
+            'work_days_in_week' => 'required|numeric',
+            'salary' => 'required|numeric',
         ];
         $data = $request->validate(array_merge($langs_rules,$rules));
 
@@ -131,11 +136,12 @@ class JobController extends Controller
             $job->translateOrNew($lang)->title = $data[$lang]['title'];
         }
 
-        $job->company_id = auth('company')->user()->id;
-
-        if ($request->has('parent_id')) {
-            $job->parent_id = $request->get('parent_id');
-        }
+        $job->convention_id = $data['convention_id'];
+        $job->work_from = $data['work_from'];
+        $job->work_to = $data['work_to'];
+        $job->work_days_in_week = $data['work_days_in_week'];
+        $job->salary = $data['salary'];
+        $job->status = 0;
 
         // Save The Model
         $job->save();

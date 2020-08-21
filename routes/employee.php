@@ -22,9 +22,8 @@ Route::group(['prefix' => 'employee-panel','as' => 'employee.'], function () {
         Route::post('/profile','HomeController@profile_post')->name('profile_post');
 
 
-        // Companies Crud System
-//        Route::resource('companies','CompanyController')->except(['destroy']);
-//        Route::get('companies/destroy/{id?}','CompanyController@destroy')->name('companies.destroy');
+        // Jobs & Offers Crud System
+        Route::get('jobs','JobController@jobIndex')->name('jobs.index');
 
         // Plans Crud System
 //        Route::resource('plans','PlanController')->except(['destroy']);

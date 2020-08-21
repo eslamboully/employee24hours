@@ -148,7 +148,15 @@
         </a>
         <ul class="menu-content">
             <li>
-                <a href="#">
+                <a href="{{ route('admin.jobs.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        كل الوظائف
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.jobs.index') }}?status=0">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         الوظائف الجديدة
@@ -156,7 +164,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('admin.jobs.index') }}?status=1">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         وظائف قيد العمل
@@ -164,7 +172,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('admin.jobs.index') }}?status=2">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         وظائف ملغية
