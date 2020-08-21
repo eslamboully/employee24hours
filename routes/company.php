@@ -65,6 +65,11 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         Route::resource('jobs','JobController')->except(['destroy']);
         Route::post('jobs/parent/ajax/{id?}','JobController@parent_ajax')->name('jobs.parent.ajax');
         Route::get('jobs/destroy/{id?}','JobController@destroy')->name('jobs.destroy');
+
+        // Missions Crud System
+        Route::resource('missions','MissionController')->except(['destroy']);
+        Route::get('missions/status/{id?}','MissionController@status')->name('missions.edit.status');
+        Route::get('missions/destroy/{id?}','MissionController@destroy')->name('missions.destroy');
     });
 
 

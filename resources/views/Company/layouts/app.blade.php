@@ -46,20 +46,21 @@
     <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/css{{ $current_lang->direction == 'rtl' ? '-rtl' : '' }}/plugins/tour/tour.css">
     <!-- END: Page CSS-->
 
-    <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/css-rtl/plugins/extensions/toastr.css">
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/css{{ $current_lang->direction == 'rtl' ? '-rtl' : '' }}/plugins/extensions/toastr.css">
     <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/vendors/css/tables/datatable/datatables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/css{{ $current_lang->direction == 'rtl' ? '-rtl' : '' }}/pages/app-todo.css">
 
     <!-- BEGIN: Custom CSS-->
     @if($current_lang->direction == 'rtl')
-    <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/css-rtl/custom-rtl.css">
-    <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/assets/css/style-rtl.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/css-rtl/custom-rtl.css">
+        <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/assets/css/style-rtl.css">
+        <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
 
-    <style>
-        body, h1, h2, h3, h4, h5, h6, .menu-title, .menu-item, span, a, li {
-            font-family: 'Cairo', sans-serif !important;
-        }
-    </style>
+        <style>
+            body, h1, h2, h3, h4, h5, h6, .menu-title, .menu-item, span, a, li {
+                font-family: 'Cairo', sans-serif !important;
+            }
+        </style>
     @else
         <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/assets/css/style.css">
     @endif

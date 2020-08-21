@@ -30,6 +30,7 @@ class CreateJobsTable extends Migration
             $table->string('salary');
             $table->bigInteger('helper_type');
             $table->integer('status')->default(0);
+            $table->softDeletes();
 
             $table->timestamps();
         });

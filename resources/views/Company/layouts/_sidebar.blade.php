@@ -73,7 +73,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('company.jobs.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         وظائف الشركة
@@ -81,7 +81,7 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{{ route('company.jobs.create') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         اضف وظيفة
@@ -265,6 +265,32 @@
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         اضف خدمة
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <li class=" navigation-header"><span>موظف اداري او فني</span>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-help-circle"></i>
+            <span class="menu-title" data-i18n="Menu Levels">المهام</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('questions') }}">
+                <a href="{{ route('company.questions.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        جدول المهام
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('company.questions.create') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        اضف مهمة
                     </span>
                 </a>
             </li>

@@ -3,16 +3,15 @@
 namespace App\Http\Controllers\Dashboards\Company;
 
 use App\Http\Controllers\Controller;
-use App\Models\Agreement;
+use App\Models\Department;
 use App\Models\Language;
-use App\Models\Job;
-use App\Models\JobType;
-use App\Models\Convention;
+use App\Models\Product;
+use App\Models\Mission;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
-class JobController extends Controller
+class MissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,11 +20,8 @@ class JobController extends Controller
      */
     public function index()
     {
-            $elements = Job::with(['translations'])
-                ->where('company_id',im('company')->id)
-                ->get();
-
-        return view('Company.jobs.index',compact('elements'));
+        $elements = Mission::with(['translations'])->withTrashed()->where('company_id',auth('company')->user()->id)->get();
+        return view('Company.missions.index',compact('elements'));
     }
 
     /**
@@ -35,10 +31,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        $parents = JobType::where('parent_id', null)->get();
-        $conventions = Convention::all();
-
-        return view('Company.jobs.create',compact('parents','conventions'));
+        return view('Company.missions.create');
     }
 
     /**
@@ -50,39 +43,28 @@ class JobController extends Controller
     public function store(Request $request)
     {
         $langs_rules = $this->langs_rules();
+
         $rules = [
-            'job_type_id' => 'required|numeric',
-            'convention_id' => 'required|numeric',
-            'work_from' => 'required',
-            'work_to' => 'required',
-            'work_days_in_week' => 'required|numeric',
-            'salary' => 'required|numeric',
-            'helper_type' => 'sometimes|numeric',
         ];
+
         $data = $request->validate(array_merge($langs_rules,$rules));
 
-        $job = new Job();
+        $mission = new Mission();
 
         // Save With Database Language Not Dimsav Locales
         foreach (current_langs() as $lang) {
-            $job->translateOrNew($lang)->title = $data[$lang]['title'];
-            $job->translateOrNew($lang)->description = $data[$lang]['description'];
+            $mission->translateOrNew($lang)->mission = $data[$lang]['mission'];
         }
-        // Save Other Tables
-        $job->company_id = auth('company')->user()->id;
-        $job->job_type_id = $data['job_type_id'];
-        $job->convention_id = $data['convention_id'];
-        $job->work_from = $data['work_from'];
-        $job->work_to = $data['work_to'];
-        $job->work_days_in_week = $data['work_days_in_week'];
-        $job->salary = $data['salary'];
-        $job->helper_type = $data['helper_type'];
+
+        // Other Columns
+        $mission->company_id = auth('company')->user()->id;
 
         // Save The Model
-        $job->save();
+        $mission->save();
+
 
         Session::flash('success', 'Added Successfully');
-        return redirect()->route('company.jobs.index');
+        return redirect()->route('company.missions.index');
     }
 
     /**
@@ -104,9 +86,8 @@ class JobController extends Controller
      */
     public function edit($id)
     {
-        $element = Job::find($id);
-        $categories = Job::where('parent_id',null)->get();
-        return view('Company.jobs.edit',compact('element','categories'));
+        $element = Mission::find($id);
+        return view('Company.missions.edit',compact('element'));
     }
 
     /**
@@ -120,37 +101,28 @@ class JobController extends Controller
     {
         $langs_rules = $this->langs_rules();
         $rules = [
-
+            'status' => 'required|numeric',
         ];
+
         $data = $request->validate(array_merge($langs_rules,$rules));
 
-        $job = Job::find($id);
+        $mission = Mission::find($id);
 
         // Save With Database Language Not Dimsav Locales
         foreach (current_langs() as $lang) {
-            $job->translateOrNew($lang)->title = $data[$lang]['title'];
+            $mission->translateOrNew($lang)->title = $data[$lang]['mission'];
         }
 
-        $job->company_id = auth('company')->user()->id;
+        // Other Columns
+        $mission->company_id = auth('company')->user()->id;
+        $mission->status = $data['status'];
 
-        if ($request->has('parent_id')) {
-            $job->parent_id = $request->get('parent_id');
-        }
 
         // Save The Model
-        $job->save();
-
+        $mission->save();
 
         Session::flash('success', 'Edited Successfully');
-        return redirect()->route('company.jobs.index');
-    }
-
-    public function parent_ajax($id)
-    {
-        $parent = JobType::find($id);
-        $parent->children;
-
-        return response()->json(['data' => $parent->children,'message' => null , 'status' => 1]);
+        return redirect()->route('company.missions.index');
     }
 
     /**
@@ -159,13 +131,22 @@ class JobController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id = null)
+    public function status($id = null)
     {
-        $job = Job::find($id);
-        $job->delete();
+        $mission = Mission::find($id);
+        $mission->update(['status' => 1]);
 
         Session::flash('success', 'Deleted Successfully');
-        return redirect()->route('company.jobs.index');
+        return redirect()->route('company.missions.index');
+    }
+
+    public function destroy($id = null)
+    {
+        $mission = Mission::find($id);
+        $mission->update(['status' => 2]);
+
+        Session::flash('success', 'Updated Successfully');
+        return redirect()->route('company.missions.index');
     }
 
     public function langs_rules()

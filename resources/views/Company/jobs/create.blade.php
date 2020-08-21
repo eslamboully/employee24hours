@@ -94,25 +94,17 @@
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-group row">
-                                                            <div class="col-md-4">
-                                                                <span>الاتفاقية</span>
-                                                            </div>
-                                                            <div class="col-md-8">
-                                                                <select name="parent_type" class="form-control" id="">
+                                                            <div class="col-md-12">
+                                                                <select name="convention_id" class="form-control" id="">
                                                                     <option value="">اختر اتفاقية الوظيفة</option>
                                                                     @foreach($conventions as $convention)
-                                                                        <option value="{{ $convention->id }}">{{ $convention->title }}</option>
+                                                                        <option value="{{ $convention->id }}">{!! $convention->main_items !!}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-12">
                                                         <div class="form-group row">
-                                                            <div class="col-md-4">
-                                                                <span>القسم الرئيسي</span>
-                                                            </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-6">
                                                                 <select name="parent_type" class="form-control" id="">
                                                                     <option value="">القسم رئيسي</option>
                                                                     @foreach($parents as $parent)
@@ -120,19 +112,33 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="form-group row">
-                                                            <div class="col-md-4">
-                                                                <span>القسم الفرعي</span>
-                                                            </div>
-                                                            <div class="col-md-8">
+                                                            <div class="col-md-6">
                                                                 <select name="job_type_id" class="form-control" id="">
                                                                     <option value="">القسم الفرعي</option>
-{{--                                                                @foreach($categories as $category)--}}
-{{--                                                                        <option value="{{ $category->id }}">{{ $category->title }}</option>--}}
-{{--                                                                    @endforeach--}}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-4">
+                                                                <input type="text" name="work_from" class="form-control pickatime" placeholder="اعمل من الساعة" value="{{ old('work_from') }}">
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" name="work_to" class="form-control pickatime" placeholder="حتي الساعة" value="{{ old('work_to') }}">
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" name="work_days_in_week" class="form-control" placeholder="عدد الايام التي استطيع العمل بها في الاسبوع" value="{{ old('work_days_in_week') }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <div class="col-md-6">
+                                                                <input type="text" name="salary" class="form-control" placeholder="الراتب او المبلغ" value="{{ old('salary') }}">
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <select name="helper_type" id="" class="form-control">
+                                                                    <option value="">قسم مساعد</option>
+                                                                    <option value="1">موظف استلام طلبات بدون استلام مبالغ</option>
+                                                                    <option value="2">موظف استقبال واستعلامات</option>
+                                                                    <option value="3">موظف إداري أو فني</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -156,8 +162,17 @@
     </div>
 @endsection
 
+@push('css')
+    <link rel="stylesheet" type="text/css" href="{{ url('assets/Admin') }}/app-assets/vendors/css/pickers/pickadate/pickadate.css">
+@endpush
+
 @push('js')
     <script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+    <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+    <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/pickers/dateTime/pick-a-datetime.js"></script>
     <script>
         $("[name='parent_type']").on('change',function () {
             var parent = $(this).val();
