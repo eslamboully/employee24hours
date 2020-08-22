@@ -35,20 +35,19 @@
         <div class="content-body">
             <!--native-font-stack -->
             @if($bid !== null)
-                <div class="col-sm-12 col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">قمت بتقديم عرض بالفعل</h4>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-body pb-0">
-                                <div class="form-group">
-                                    <p class="form-control">{{ $bid->description }}</p>
-                                </div>
+                <section id="global-settings" class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">قمت بتقديم عرض بالفعل</h4>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <p>{!! $bid->description !!}</p>
+                                <a href="{{ route('employee.jobs.bids.index') }}" class="btn btn-success btn-lg">قائمة عروضي</a>
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             @endif
 
             <section id="global-settings" class="card">

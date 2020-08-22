@@ -41,6 +41,11 @@ class JobController extends Controller
         return redirect()->back();
     }
 
+    public function indexBids()
+    {
+        return view('Employee.jobs.bids.index');
+    }
+
     public function create()
     {
         $conventions = Convention::all();

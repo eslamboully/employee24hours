@@ -50,6 +50,10 @@ class Employee extends Authenticatable
         return $skills;
     }
 
+    public function bids()
+    {
+        return $this->hasMany(Bid::class,'employee_id','id');
+    }
     public function languages()
     {
         $languages = json_decode($this->languages,JSON_UNESCAPED_UNICODE);

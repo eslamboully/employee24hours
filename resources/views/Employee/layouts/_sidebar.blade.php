@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('employee.jobs.index') }}">
+                <a href="{{ route('employee.jobs.bids.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         عروضي

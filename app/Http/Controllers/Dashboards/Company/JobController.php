@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Agreement;
 use App\Models\Language;
 use App\Models\Job;
+use App\Models\Bid;
 use App\Models\JobType;
 use App\Models\Convention;
 use Astrotomic\Translatable\Locales;

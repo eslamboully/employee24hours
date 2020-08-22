@@ -75,12 +75,19 @@
                                                                 صاحب العرض
                                                             </button></td>
                                                         <td>
-                                                            <form action="" method="post">
+                                                            <form action="{{ route('company.jobs.bids.accept',$bid->id) }}" method="post">
                                                                 {{ csrf_field() }}
-                                                                <button href="{{ route('company.jobs.bids.accept',$bid->id) }}" class="btn btn-success refuse_class">
-                                                                    <i class="fa fa-edit"></i>
-                                                                    اختيار
-                                                                </button>
+                                                                @if($bid->status == 0)
+                                                                    <button class="btn btn-success">
+                                                                        <i class="fa fa-edit"></i>
+                                                                        اختيار
+                                                                    </button>
+                                                                @elseif($bid->status == 1)
+                                                                    <button class="btn btn-dark">
+                                                                        <i class="fa fa-edit"></i>
+                                                                        رسائل التفاوض
+                                                                    </button>
+                                                                @endif
                                                             </form>
                                                         </td>
                                                     </tr>

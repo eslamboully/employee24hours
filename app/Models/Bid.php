@@ -14,4 +14,9 @@ class Bid extends Model
     {
         return $this->belongsTo(Employee::class,'employee_id','id');
     }
+
+    public function job()
+    {
+        return $this->belongsTo(Job::class,'job_id','id');
+    }
 }
