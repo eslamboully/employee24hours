@@ -83,10 +83,10 @@
                                                                         اختيار
                                                                     </button>
                                                                 @elseif($bid->status == 1)
-                                                                    <button class="btn btn-dark">
+                                                                    <a href="{{ route('company.jobs.bids.contract',$bid->job_id) }}" class="btn btn-dark">
                                                                         <i class="fa fa-edit"></i>
-                                                                        رسائل التفاوض
-                                                                    </button>
+                                                                        كتابة تفاصيل العقد
+                                                                    </a>
                                                                 @endif
                                                             </form>
                                                         </td>

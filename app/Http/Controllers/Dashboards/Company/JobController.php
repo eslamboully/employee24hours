@@ -189,6 +189,13 @@ class JobController extends Controller
         return redirect()->back();
     }
 
+    public function jobBidsContract($id)
+    {
+        $element = Job::where(['id' => $id])->first();
+
+        return view('Company.jobs.bids.contract',compact('element'));
+    }
+
     public function langs_rules()
     {
         $langs = Language::all();

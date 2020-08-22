@@ -64,7 +64,7 @@
             <span class="menu-title" data-i18n="Menu Levels">ادارة العمل</span>
         </a>
         <ul class="menu-content">
-            <li>
+            <li class="{{ active('job-types') }}">
                 <a href="{{ route('company.job-types.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
@@ -72,7 +72,7 @@
                     </span>
                 </a>
             </li>
-            <li>
+            <li class="{{ active('job') }}">
                 <a href="{{ route('company.jobs.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
