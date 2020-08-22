@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
-use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Bid extends Model implements TranslatableContract
+class Bid extends Model
 {
-    use Translatable;
     use SoftDeletes;
+    protected $fillable = ['status','description','job_id','employee_id'];
 
-    public $translatedAttributes = ['description'];
-    protected $fillable = ['company_id','status'];
-
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class,'employee_id','id');
+    }
 }

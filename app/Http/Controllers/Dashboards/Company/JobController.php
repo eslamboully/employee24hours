@@ -174,6 +174,12 @@ class JobController extends Controller
         return redirect()->route('company.jobs.index');
     }
 
+    public function jobBids($id)
+    {
+        $element = Job::find($id);
+        return view('company.jobs.bids.index',compact('element'));
+    }
+
     public function langs_rules()
     {
         $langs = Language::all();

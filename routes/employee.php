@@ -24,6 +24,8 @@ Route::group(['prefix' => 'employee-panel','as' => 'employee.'], function () {
 
         // Jobs & Offers Crud System
         Route::get('jobs','JobController@jobIndex')->name('jobs.index');
+        Route::get('jobs/show/{id}','JobController@show')->name('jobs.show');
+        Route::post('jobs/bids/create','JobController@createBids')->name('jobs.bids.create');
 
         // Plans Crud System
 //        Route::resource('plans','PlanController')->except(['destroy']);

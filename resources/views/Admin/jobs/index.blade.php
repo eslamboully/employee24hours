@@ -1,4 +1,4 @@
-@extends('Company.layouts.app')
+@extends('Admin.layouts.app')
 
 @section('content')
     <div class="app-content content">
@@ -61,6 +61,7 @@
                                                 <th>العمل من</th>
                                                 <th>حتي الساعة</th>
                                                 <th>القسم</th>
+                                                <th>الشركة</th>
                                                 <th>الحالة</th>
                                                 <th>الاجراءات</th>
                                             </tr>
@@ -75,6 +76,7 @@
                                                         <td>{{ $element->work_from }}</td>
                                                         <td>{{ $element->work_to }}</td>
                                                         <td>{{ $element->type->title }}</td>
+                                                        <td>{{ $element->company->email }}</td>
                                                         <td>
                                                             @if($element->status == 0)
                                                                 <button class="btn btn-success" disabled>في انتظار القبول</button>
@@ -84,12 +86,19 @@
                                                                 <button class="btn btn-primary" disabled>وظيفة ملغية</button>
                                                             @elseif($element->status == 3)
                                                                 <button class="btn btn-primary" disabled>وظائف مرفوضة</button>
+                                                            @elseif($element->status == 4)
+                                                                <button class="btn btn-dark" disabled>وظائف معروضة</button>
                                                             @endif
                                                         </td>
                                                         <td>
                                                             <form action="{{ route('admin.jobs.refuse',$element->id) }}" method="post">
                                                                 {{ csrf_field() }}
-                                                                    <button href="{{ route('admin.jobs.show',$element->id) }}" class="btn btn-info"><i class="fa fa-eye"></i>المزيد</button>
+                                                                @if($element->status != 4)
+                                                                    <button
+                                                                        data-id="{{ $element->id }}"
+                                                                        data-description="{{ $element->description }}"
+                                                                        class="btn btn-info details_class"><i class="fa fa-eye"></i>المزيد</button>
+                                                                @endif
                                                                     <button class="btn btn-danger refuse_class" data-id="{{ $element->id }}">
                                                                         <i class="fa fa-edit"></i>
                                                                         رفض
@@ -120,6 +129,37 @@
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
     <script>
+        $('.details_class').on('click',async function (e) {
+            e.preventDefault();
+            let that = this;
+            let id = $(this).data('id');
+            let description = $(this).data('description');
+
+            Swal.fire({
+                title: `وظيفة رقم ${id}`,
+                text: `التفاصيل ${description}`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'تنزيل الوظيفة',
+                cancelButtonText: 'حسنا'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        'url' : '{{ route('admin.jobs.accept') }}',
+                        'method' : 'post',
+                        data: {_token: '{{ csrf_token() }}',id: id},
+                        success : function () {
+                            window.location.href = '{{ route('admin.jobs.index') }}?status=4'
+                        }
+                    });
+                }
+            })
+
+
+        });
+
         $('.refuse_class').on('click',async function (e) {
             e.preventDefault();
             let that = this;

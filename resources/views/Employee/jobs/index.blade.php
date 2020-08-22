@@ -1,4 +1,4 @@
-@extends('Company.layouts.app')
+@extends('Employee.layouts.app')
 
 @section('content')
     <div class="app-content content">
@@ -50,7 +50,11 @@
                                                 <th>#</th>
                                                 <th>الوظيفة</th>
                                                 <th>المرتب بالدولار</th>
-                                                <th>الاجراءات</th>
+                                                <th>ايام العمل في الاسبوع</th>
+                                                <th>القسم</th>
+                                                <th>تاريخ الوظيفة</th>
+                                                <th>عدد العروض</th>
+                                                <th>التفاصيل</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -58,17 +62,12 @@
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
                                                         <td>{{ $element->title }}</td>
-                                                        <td>
-                                                            <form action="{{ route('company.jobs.destroy',$element->id) }}" method="post">
-                                                                @method('delete')
-                                                                {{ csrf_field() }}
-{{--                                                                    <a href="{{ route('company.jobs.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i> تعديل</a>--}}
-                                                                    <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                                        <i class="fa fa-trash"></i>
-                                                                        حذف
-                                                                    </button>
-                                                            </form>
-                                                        </td>
+                                                        <td>{{ $element->salary }} دولار</td>
+                                                        <td>{{ $element->work_days_in_week }}</td>
+                                                        <td>{{ $element->type->title }}</td>
+                                                        <td>{{ $element->updated_at->diffForHumans() }}</td>
+                                                        <td>{{ count($element->bids) }}</td>
+                                                        <td><a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-success">المزيد</a></td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

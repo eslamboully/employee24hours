@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول الوظائف</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول عروض الوظيفة</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الوظائف
+                                    <li class="breadcrumb-item active">ادارة العروض
                                     </li>
                                 </ol>
                             </div>
@@ -36,18 +36,18 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">وظائف الشركة</h4>
+                                <h4 class="card-title">{{ $element->title }}</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
 {{--                                        @if(im('company')->hasPermissionTo('create_jobtypes'))--}}
-                                        <a href="{{ route('company.jobs.create') }}" class="btn btn-success">اضف جديد</a>
+{{--                                        <a href="{{ route('company.jobs.create') }}" class="btn btn-success">اضف جديد</a>--}}
 {{--                                        @else--}}
 {{--                                            <a href="#" class="btn btn-success disabled" disabled>اضف جديد</a>--}}
 {{--                                        @endif--}}
-                                        <a href="" class="btn btn-primary">تحديث</a>
-                                        <a href="" class="btn btn-danger">حذف الكل</a>
+{{--                                        <a href="" class="btn btn-primary">تحديث</a>--}}
+{{--                                        <a href="" class="btn btn-danger">حذف الكل</a>--}}
                                     </p>
                                     <!-- Table with outer spacing -->
                                     <div class="table-responsive">
@@ -55,52 +55,24 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>العنوان</th>
-                                                <th>الراتب / المقابل</th>
-                                                <th>ايام العمل في الاسبوع</th>
-                                                <th>العمل من</th>
-                                                <th>حتي الساعة</th>
-                                                <th>القسم</th>
-                                                <th>العروض المقدمة</th>
-                                                <th>الحالة</th>
+                                                <th>العرض</th>
+                                                <th>صاحب العرض</th>
                                                 <th>الاجراءات</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($elements as $index=>$element)
+                                                @foreach($element->bids as $index=>$bid)
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
-                                                        <td>{{ $element->title }}</td>
-                                                        <td>{{ $element->salary }}دولار</td>
-                                                        <td>{{ $element->work_days_in_week }}</td>
-                                                        <td>{{ $element->work_from }}</td>
-                                                        <td>{{ $element->work_to }}</td>
-                                                        <td>{{ $element->type->title }}</td>
-                                                        <td><a href="{{ route('company.jobs.bids.index',$element->id) }}" class="btn btn-dark">عروض الوظيفة</a></td>
+                                                        <td>{{ $bid->description }}</td>
+                                                        <td><a href="" class="btn btn-info">صاحب العرض</a></td>
                                                         <td>
-                                                            @if($element->status == 0)
-                                                                <button class="btn btn-success" disabled>في انتظار القبول</button>
-                                                            @elseif($element->status == 1)
-                                                                <button class="btn btn-info" disabled>قيد العمل بها</button>
-                                                            @elseif($element->status == 2)
-                                                                <button class="btn btn-primary" disabled>وظيفة ملغية</button>
-                                                            @elseif($element->status == 3)
-                                                                <button class="btn btn-primary see_refusal_details" data-refusal="{{ $element->refusal_details }}">وظائف مرفوضة : السبب</button>
-                                                            @elseif($element->status == 4)
-                                                                <button class="btn btn-dark" disabled>وظائف معروضة</button>
-                                                            @endif
-                                                        </td>
-                                                        <td>
-                                                            <form action="{{ route('company.jobs.destroy',$element->id) }}" method="post">
-                                                                @method('delete')
+                                                            <form action="" method="post">
                                                                 {{ csrf_field() }}
-                                                                @if($element->status == 3)
-                                                                    <a href="{{ route('company.jobs.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i>تعديل</a>
-                                                                @endif
-                                                                    <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                                        <i class="fa fa-trash"></i>
-                                                                        حذف
-                                                                    </button>
+                                                                <button class="btn btn-success refuse_class" data-id="{{ $element->id }}">
+                                                                    <i class="fa fa-edit"></i>
+                                                                    اختيار
+                                                                </button>
                                                             </form>
                                                         </td>
                                                     </tr>

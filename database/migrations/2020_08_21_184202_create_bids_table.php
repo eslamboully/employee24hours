@@ -15,23 +15,20 @@ class CreateBidsTable extends Migration
     {
         Schema::create('bids', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('company_id')->unsigned();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->text('description')->nullable();
+
+            $table->unsignedBigInteger('job_id');
+            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
+
+            $table->unsignedBigInteger('employee_id');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
 
             $table->integer('status')->default(0);
-            $table->softDeletes();
 
+            $table->softDeletes();
             $table->timestamps();
         });
 
-        Schema::create('bid_translations', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('bid_id')->unsigned();
-            $table->string('locale')->index();
-            $table->text('description')->nullable();
-            $table->unique(['bid_id', 'locale']);
-            $table->foreign('bid_id')->references('id')->on('bids')->onDelete('cascade');
-        });
     }
 
     /**

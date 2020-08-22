@@ -16,14 +16,21 @@ class JobController extends Controller
 {
     public function index()
     {
-            $elements = Job::with(['translations'])->get();
-
+        $elements = Job::with(['translations'])->get();
         return view('Admin.jobs.index',compact('elements'));
     }
 
     public function show($id)
     {
-        //
+
+    }
+
+    public function accept(Request $request)
+    {
+        $job = Job::find($request->get('id'))
+        ->update(['status' => 4]);
+
+        return response()->json(['data' => $job,'message' => null,'status' => 1]);
     }
 
     public function refuse(Request $request)

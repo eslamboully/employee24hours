@@ -23,4 +23,19 @@ class Job extends Model implements TranslatableContract
     {
         return $this->belongsTo(JobType::class,'job_type_id','id');
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'company_id','id');
+    }
+
+    public function bids()
+    {
+        return $this->hasMany(Bid::class,'job_id','id');
+    }
+
+    public function convention()
+    {
+        return $this->belongsTo(Convention::class,'convention_id','id');
+    }
 }

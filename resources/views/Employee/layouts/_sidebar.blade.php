@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('employee.offers.create') }}">
+                <a href="{{ route('employee.jobs.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         عروضي
