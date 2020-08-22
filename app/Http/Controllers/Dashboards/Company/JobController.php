@@ -180,6 +180,14 @@ class JobController extends Controller
         return view('company.jobs.bids.index',compact('element'));
     }
 
+    public function jobBidsAccept($id)
+    {
+        $element = Bid::find($id);
+        $element->update(['status' => 1]);
+
+        return redirect()->back();
+    }
+
     public function langs_rules()
     {
         $langs = Language::all();
