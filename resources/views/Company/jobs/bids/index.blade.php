@@ -36,7 +36,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">{{ $element->title }}</h4>
+                                <h4 class="card-title">{{ $job->title }}</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
@@ -61,10 +61,10 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($element->bids as $index=>$bid)
+                                                @foreach($bids as $index=>$bid)
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
-                                                        <td>{{ $bid->description }}</td>
+                                                        <td style="{{ ($choose && ($bid->status == 0 || $bid->status == 2)) ? 'text-decoration: line-through' : '' }}">{{ $bid->description }}</td>
                                                         <td><button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info info_button"
                                                                data-name="{{ $bid->employee->name }}"
                                                                data-email="{{ $bid->employee->email }}"
@@ -78,14 +78,34 @@
                                                             <form action="{{ route('company.jobs.bids.accept',$bid->id) }}" method="post">
                                                                 {{ csrf_field() }}
                                                                 @if($bid->status == 0)
-                                                                    <button class="btn btn-success">
-                                                                        <i class="fa fa-edit"></i>
-                                                                        اختيار
-                                                                    </button>
+                                                                    @if(!$choose)
+                                                                        <button class="btn btn-success">
+                                                                            اختيار
+                                                                        </button>
+                                                                    @elseif($bid->status == 1)
+                                                                        <a href="#" class="btn btn-success disabled">
+                                                                            اخترت بالفعل
+                                                                        </a>
+                                                                    @endif
                                                                 @elseif($bid->status == 1)
-                                                                    <a href="{{ route('company.jobs.bids.contract',$bid->job_id) }}" class="btn btn-dark">
-                                                                        <i class="fa fa-edit"></i>
-                                                                        كتابة تفاصيل العقد
+                                                                    @if($bid->job->contract)
+                                                                        @if($bid->job->contract->again == 0)
+                                                                            <a href="##" class="btn btn-dark">
+                                                                                بانتظار الموظف
+                                                                            </a>
+                                                                        @elseif($bid->job->contract->again == 1)
+                                                                            <a href="##" class="btn btn-dark">
+                                                                                تم رفض العرض : السبب
+                                                                            </a>
+                                                                        @endif
+                                                                    @else
+                                                                        <a href="##" class="btn btn-dark contract_class" data-job-id="{{ $bid->job_id }}" data-employee-id="{{ $bid->employee_id }}">
+                                                                            كتابة تفاصيل العقد
+                                                                        </a>
+                                                                    @endif
+                                                                @elseif($bid->status == 2)
+                                                                    <a href="#" class="btn btn-info disabled">
+                                                                        تم الغاء العرض
                                                                     </a>
                                                                 @endif
                                                             </form>
@@ -134,6 +154,34 @@
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
     <script>
+        $('.contract_class').on('click',async function (e) {
+            e.preventDefault();
+
+            let job_id = $(this).data('job-id');
+            let employee_id = $(this).data('employee-id');
+            const { value: text } = await Swal.fire({
+                input: 'textarea',
+                inputPlaceholder: 'تفاصيل العقد ...',
+                inputAttributes: {
+                    'aria-label': 'تفاصيل العقد ...'
+                },
+                showCancelButton: true
+            });
+
+            if (text) {
+                $.ajax({
+                    'url' : '{{ route('company.jobs.contract.store') }}',
+                    'method' : 'post',
+                    data: {_token: '{{ csrf_token() }}',description: text,job_id: job_id,employee_id: employee_id},
+                    success : function () {
+                        window.location.href = `{{ route('company.jobs.bids.index') }}/${job_id}`
+                    }
+                });
+            }
+
+
+        });
+
         $('.info_button').on('click',function (e) {
             e.preventDefault();
             let name = $(this).data('name');

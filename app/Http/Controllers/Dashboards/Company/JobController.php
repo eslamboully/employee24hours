@@ -58,7 +58,7 @@ class JobController extends Controller
             'work_to' => 'required',
             'work_days_in_week' => 'required|numeric',
             'salary' => 'required|numeric',
-            'helper_type' => 'sometimes|numeric',
+            'helper_type' => 'sometimes|nullable|numeric',
         ];
         $data = $request->validate(array_merge($langs_rules,$rules));
 
@@ -177,8 +177,15 @@ class JobController extends Controller
 
     public function jobBids($id)
     {
-        $element = Job::find($id);
-        return view('company.jobs.bids.index',compact('element'));
+        $job = Job::find($id);
+        $bids = Bid::where('job_id',$id)->orderBy('status','asc')->get();
+        $choose = false;
+        foreach ($bids as $bid) {
+            if ($bid->status == 1) {
+                $choose = true;
+            }
+        }
+        return view('Company.jobs.bids.index',compact('bids','choose','job'));
     }
 
     public function jobBidsAccept($id)
@@ -186,6 +193,10 @@ class JobController extends Controller
         $element = Bid::find($id);
         $element->update(['status' => 1]);
 
+        $otherBids = Bid::where('id','!=',$id)->get();
+        foreach($otherBids as $bid) {
+            $bid->update(['status' => 2]);
+        }
         return redirect()->back();
     }
 

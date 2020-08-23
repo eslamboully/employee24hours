@@ -40,10 +40,20 @@ class AdminSeeder extends Seeder
         ]);
 
         // Employee Test Account
-        $employee = Employee::create([
+        $employeeOne = Employee::create([
             'name' => 'Employee Account',
             'email' => 'employee@employee.com',
             'password' => bcrypt('employee'),
+            'languages' => '["Arabic","English"]',
+            'work_from' => '1:00 AM',
+            'work_to' => '9:00 PM',
+            'work_days_in_week' => '4'
+        ]);
+
+        $employeeTwo = Employee::create([
+            'name' => 'Employee Account',
+            'email' => 'employ@employ.com',
+            'password' => bcrypt('employ'),
             'languages' => '["Arabic","English"]',
             'work_from' => '1:00 AM',
             'work_to' => '9:00 PM',

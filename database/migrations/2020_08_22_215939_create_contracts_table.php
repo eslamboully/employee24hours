@@ -18,6 +18,7 @@ class CreateContractsTable extends Migration
             $table->text('description');
             $table->text('refusal_details')->nullable();
             $table->tinyInteger('accept')->default(0);
+            $table->tinyInteger('again')->default(0);
 
             $table->unsignedBigInteger('job_id');
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');

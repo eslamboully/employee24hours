@@ -28,7 +28,7 @@ class CreateJobsTable extends Migration
             $table->string('work_to');
             $table->string('work_days_in_week');
             $table->string('salary');
-            $table->bigInteger('helper_type');
+            $table->bigInteger('helper_type')->nullable();
             $table->integer('status')->default(0);
             $table->text('refusal_details')->nullable();
             $table->softDeletes();
@@ -41,7 +41,7 @@ class CreateJobsTable extends Migration
             $table->bigInteger('job_id')->unsigned();
             $table->string('locale')->index();
             $table->string('title');
-            $table->string('description');
+            $table->text('description');
             $table->unique(['job_id', 'locale']);
             $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
         });

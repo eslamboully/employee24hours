@@ -65,7 +65,19 @@
                                                         <td>{{ $element->job->salary }} دولار</td>
                                                         <td>{{ $element->job->updated_at->diffForHumans() }}</td>
                                                         <td>{{ count($element->job->bids) }}</td>
-                                                        <td><a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-success">المزيد</a></td>
+                                                        <td>
+                                                            @if($element->status == 0)
+                                                                <a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-success">المزيد</a>
+                                                            @elseif($element->status == 1)
+                                                                @if($element->job->contract->again == 0)
+                                                                    <a href="#" class="btn btn-success"> الاتفاقية</a>
+                                                                @elseif($element->job->contract->again == 1)
+                                                                    <a href="#" class="btn btn-success">بانتظار عرض جديد</a>
+                                                                @endif
+                                                            @elseif($element->status == 2)
+                                                                <a href="##" class="btn btn-danger disabled">تم الالغاء</a>
+                                                            @endif
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

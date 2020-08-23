@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
-    protected $fillable = ['description','job_id','accept','employee_id','refusal_details'];
+    protected $fillable = ['description','job_id','accept','employee_id','refusal_details','again'];
 
     public function job()
     {

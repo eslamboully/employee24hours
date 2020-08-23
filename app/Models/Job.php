@@ -38,4 +38,9 @@ class Job extends Model implements TranslatableContract
     {
         return $this->belongsTo(Convention::class,'convention_id','id');
     }
+
+    public function contract()
+    {
+        return $this->hasOne(Contract::class,'job_id','id');
+    }
 }
