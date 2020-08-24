@@ -51,7 +51,6 @@
                                                 <th>العرض</th>
                                                 <th>الوظيفة</th>
                                                 <th>المرتب بالدولار</th>
-                                                <th>تاريخ الوظيفة</th>
                                                 <th>عدد العروض</th>
                                                 <th>التفاصيل</th>
                                             </tr>
@@ -63,14 +62,32 @@
                                                         <td>{{ $element->description }}</td>
                                                         <td>{{ $element->job->title }}</td>
                                                         <td>{{ $element->job->salary }} دولار</td>
-                                                        <td>{{ $element->job->updated_at->diffForHumans() }}</td>
                                                         <td>{{ count($element->job->bids) }}</td>
                                                         <td>
                                                             @if($element->status == 0)
                                                                 <a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-success">المزيد</a>
                                                             @elseif($element->status == 1)
                                                                 @if($element->job->contract->again == 0)
-                                                                    <a href="#" class="btn btn-success"> الاتفاقية</a>
+                                                                    @if($element->job->contract->accept == 0)
+                                                                        <div class="text-nowrap btn-group-sm">
+                                                                            <button type="button" class="btn btn-success see_contract"
+                                                                                    data-description="{{ $element->job->contract->description }}">
+                                                                                الاتفاقية
+                                                                            </button>
+                                                                            <a href="{{ route('employee.jobs.contracts.accept',$element->job->contract->id) }}" class="btn btn-info">
+                                                                                موافقة
+                                                                            </a>
+                                                                            <button type="button" class="btn btn-primary refuse_contract" data-contract-id="{{ $element->job->contract->id }}">
+                                                                                رفض العرض
+                                                                            </button>
+                                                                        </div>
+                                                                    @else
+                                                                        <div class="text-nowrap">
+                                                                            <button type="button" class="btn btn-success">
+                                                                                تم الاتفاق بنجاح
+                                                                            </button>
+                                                                        </div>
+                                                                    @endif
                                                                 @elseif($element->job->contract->again == 1)
                                                                     <a href="#" class="btn btn-success">بانتظار عرض جديد</a>
                                                                 @endif
@@ -101,6 +118,39 @@
     <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
+    <script>
+        $('.see_contract').on('click',function (e) {
+            e.preventDefault();
+            let description = $(this).data('description');
+            Swal.fire(description);
+        });
+        $('.refuse_contract').on('click',async function (e) {
+            e.preventDefault();
+
+            let contract_id = $(this).data('contract-id');
+            const { value: text } = await Swal.fire({
+                input: 'textarea',
+                inputPlaceholder: 'سبب رفض العقد للتفاوض مرة اخري ...',
+                inputAttributes: {
+                    'aria-label': 'سبب رفض العقد للتفاوض مرة اخري ...'
+                },
+                showCancelButton: true
+            });
+
+            if (text) {
+                $.ajax({
+                    'url' : '{{ route('employee.jobs.contracts.refuse') }}',
+                    'method' : 'post',
+                    data: {_token: '{{ csrf_token() }}',refusal_details: text,contract_id: contract_id},
+                    success : function () {
+                        window.location.href = `{{ route('employee.jobs.bids.index') }}`
+                    }
+                });
+            }
+
+
+        });
+    </script>
 
     @if(session()->has('success'))
         <script>

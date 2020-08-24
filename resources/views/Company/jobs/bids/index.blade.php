@@ -90,13 +90,24 @@
                                                                 @elseif($bid->status == 1)
                                                                     @if($bid->job->contract)
                                                                         @if($bid->job->contract->again == 0)
-                                                                            <a href="##" class="btn btn-dark">
-                                                                                بانتظار الموظف
-                                                                            </a>
+                                                                            @if($bid->job->contract->accept == 0)
+                                                                                <a href="##" class="btn btn-dark">
+                                                                                    بانتظار الموظف
+                                                                                </a>
+                                                                            @else
+                                                                                <a href="##" class="btn btn-dark">
+                                                                                    تم الاتفاق بنجاح
+                                                                                </a>
+                                                                            @endif
                                                                         @elseif($bid->job->contract->again == 1)
-                                                                            <a href="##" class="btn btn-dark">
-                                                                                تم رفض العرض : السبب
-                                                                            </a>
+                                                                            <div class="text-nowrap">
+                                                                                <button class="btn btn-dark see_refusal" data-refusal-details="{{ $bid->job->contract->refusal_details }}">
+                                                                                    سبب الرفض
+                                                                                </button>
+                                                                                <button class="btn btn-dark contract_class" data-job-id="{{ $bid->job_id }}" data-employee-id="{{ $bid->employee_id }}">
+                                                                                    عقد اخر
+                                                                                </button>
+                                                                            </div>
                                                                         @endif
                                                                     @else
                                                                         <a href="##" class="btn btn-dark contract_class" data-job-id="{{ $bid->job_id }}" data-employee-id="{{ $bid->employee_id }}">
@@ -181,7 +192,11 @@
 
 
         });
-
+        $('.see_refusal').on('click',function (e) {
+            e.preventDefault();
+            let refusal = $(this).data('refusal-details');
+            Swal.fire(refusal);
+        });
         $('.info_button').on('click',function (e) {
             e.preventDefault();
             let name = $(this).data('name');

@@ -27,10 +27,11 @@ Route::group(['prefix' => 'employee-panel','as' => 'employee.'], function () {
         Route::get('jobs/show/{id}','JobController@show')->name('jobs.show');
         Route::post('jobs/bids/create','JobController@createBids')->name('jobs.bids.create');
         Route::get('jobs/bids/index','JobController@indexBids')->name('jobs.bids.index');
+        Route::get('jobs/contract/update/{id}','ContractController@acceptContract')->name('jobs.contracts.accept');
+        Route::post('jobs/contract/update','ContractController@refuseContract')->name('jobs.contracts.refuse');
 
-        // Plans Crud System
-//        Route::resource('plans','PlanController')->except(['destroy']);
-//        Route::get('plans/destroy/{id?}','PlanController@destroy')->name('plans.destroy');
+        // Related Companies Crud System
+        Route::get('related-companies','JobController@relatedCompanies')->name('related-companies.index');
     });
 
 

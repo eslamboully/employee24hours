@@ -17,7 +17,7 @@ class JobController extends Controller
 {
     public function jobIndex()
     {
-        $elements = Job::with(['translations'])->get();
+        $elements = Job::with(['translations'])->doesnthave('contract')->get();
         return view('Employee.jobs.index',compact('elements'));
     }
 
@@ -51,6 +51,11 @@ class JobController extends Controller
         $conventions = Convention::all();
 
         return view('Employee.jobs.create',compact('parents','conventions'));
+    }
+
+    public function relatedCompanies()
+    {
+        return view('Employee.related-companies.index');
     }
 
     public function langs_rules()

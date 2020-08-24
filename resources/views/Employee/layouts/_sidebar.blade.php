@@ -13,7 +13,7 @@
             <span class="menu-title" data-i18n="Menu Levels">الوظائف</span>
         </a>
         <ul class="menu-content">
-            <li class="{{ active('conventions') }}">
+            <li class="{{ active('jobs') }}">
                 <a href="{{ route('employee.jobs.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
@@ -26,6 +26,21 @@
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">
                         عروضي
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-aperture"></i>
+            <span class="menu-title" data-i18n="Menu Levels">شركات اعمل بها</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('related-companies') }}">
+                <a href="{{ route('employee.related-companies.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الشركات التي اعمل بها
                     </span>
                 </a>
             </li>

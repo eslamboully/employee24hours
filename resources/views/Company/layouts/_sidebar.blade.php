@@ -72,7 +72,7 @@
                     </span>
                 </a>
             </li>
-            <li class="{{ active('job') }}">
+            <li class="{{ active('jobs') }}">
                 <a href="{{ route('company.jobs.index') }}">
                     <i class="feather icon-circle"></i>
                     <span class="menu-item" data-i18n="Second Level">

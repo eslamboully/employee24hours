@@ -24,6 +24,11 @@ class ContractController extends Controller
             'employee_id' => 'required|numeric'
         ]);
         $data['again'] = 0;
-        Contract::create($data);
+        $contract = Contract::where(['job_id' => $request->get('job_id')])->first();
+        if ($contract) {
+            $contract->update($data);
+        }else {
+            Contract::create($data);
+        }
     }
 }

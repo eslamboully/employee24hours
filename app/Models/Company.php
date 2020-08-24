@@ -35,4 +35,9 @@ class Company extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class,'company_employee','employee_id','company_id');
+    }
 }

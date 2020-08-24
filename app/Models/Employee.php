@@ -45,7 +45,6 @@ class Employee extends Authenticatable
 
     public function getSkillsId()
     {
-//        $skills = $this->skills()->pluck('id')->toArray();
         $skills = DB::table('skill_employee')->where('employee_id',$this->id)->pluck('skill_id')->toArray();
         return $skills;
     }
@@ -54,6 +53,24 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Bid::class,'employee_id','id');
     }
+
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class,'employee_id','id');
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class,'company_employee','company_id','employee_id')
+            ->select(['started_at', 'salary_appointment_at','salary']);;
+    }
+
+    public function pivotCompanyColumns($company_id)
+    {
+        $company_employee = DB::table('company_employee')->where(['employee_id' => $this->id,'company_id' =>$company_id])->first();
+        return $company_employee;
+    }
+
     public function languages()
     {
         $languages = json_decode($this->languages,JSON_UNESCAPED_UNICODE);
