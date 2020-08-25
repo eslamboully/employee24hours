@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Dashboards\Company;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Agreement;
+use App\Models\Company;
+use App\Models\Employee;
 use App\Models\Language;
 use App\Models\Job;
 use App\Models\Bid;
 use App\Models\JobType;
 use App\Models\Convention;
+use App\Notifications\NewJob;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 
 class JobController extends Controller
@@ -82,7 +87,18 @@ class JobController extends Controller
         // Save The Model
         $job->save();
 
+        $admins = Admin::all();
+
+        // send notifications to admins to approve
+        $data = [
+            'title' => $job->company->name,
+            'message' => 'تم اضافة وظيفة جديدة',
+            'route' => 'admin.jobs.index'
+        ];
+
+        Notification::send($admins, new NewJob($data));
         Session::flash('success', 'Added Successfully');
+
         return redirect()->route('company.jobs.index');
     }
 
@@ -148,6 +164,17 @@ class JobController extends Controller
         $job->save();
 
 
+        $admins = Admin::all();
+
+        // send notifications to admins to approve
+        $data = [
+            'title' => $job->company->name,
+            'message' => 'اعادة طلب نشر وظيفة',
+            'route' => 'admin.jobs.index'
+        ];
+
+        Notification::send($admins, new NewJob($data));
+
         Session::flash('success', 'Edited Successfully');
         return redirect()->route('company.jobs.index');
     }
@@ -197,6 +224,18 @@ class JobController extends Controller
         foreach($otherBids as $bid) {
             $bid->update(['status' => 2]);
         }
+
+        $employee = Employee::find($element->employee_id);
+
+        // send notifications to admins to approve
+        $data = [
+            'title' => $element->job->company->name,
+            'message' => 'تهانينا تم اختيارك والدخول في مرحلة التفاوض',
+            'route' => 'employee.jobs.bids.index'
+        ];
+
+        Notification::send($employee, new NewJob($data));
+
         return redirect()->back();
     }
 

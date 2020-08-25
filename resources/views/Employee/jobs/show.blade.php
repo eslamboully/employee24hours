@@ -168,27 +168,39 @@
 
 
                 @if($bid === null)
-                    <div class="col-sm-12 col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">تقديم عرض</h4>
-                            </div>
-                            <div class="card-content">
-                                <div class="card-body pb-0">
-                                    <form action="{{ route('employee.jobs.bids.create') }}" method="post">
-                                        {{ csrf_field() }}
-                                        <input type="hidden" name="job_id" value="{{ $element->id }}">
-                                        <div class="form-group">
-                                            <textarea name="description" class="form-control"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-success">اضف عرض</button>
-                                        </div>
-                                    </form>
+                {{-- Job => work_from > Employee => work_from && Job => work_to > Employee => work_to  --}}
+
+                    @if($elementWorkFrom > $employeeWorkFrom && $elementWorkTo < $employeeWorkTo)
+                        <div class="col-sm-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">تقديم عرض</h4>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body pb-0">
+                                        <form action="{{ route('employee.jobs.bids.create') }}" method="post">
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="job_id" value="{{ $element->id }}">
+                                            <div class="form-group">
+                                                <textarea name="description" class="form-control"></textarea>
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-success">اضف عرض</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @else
+                        <div class="col-sm-12 col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">لا يمكن تقديم عرض لاختلافك مع متطلبات الشركة</h4>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 @endif
             </section>
             <!--/ Headings -->

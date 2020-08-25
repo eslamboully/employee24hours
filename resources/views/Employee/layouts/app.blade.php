@@ -124,25 +124,31 @@
                             <ul class="search-list search-list-main"></ul>
                         </div>
                     </li>
-                    <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span class="badge badge-pill badge-primary badge-up">5</span></a>
+                    <li class="dropdown dropdown-notification nav-item">
+                        <a class="nav-link nav-link-label" href="#" data-toggle="dropdown">
+                            <i class="ficon feather icon-bell"></i>
+                            <span class="badge badge-pill badge-primary badge-up">{{ count(im('employee')->notifications) }}</span></a>
                         <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                             <li class="dropdown-menu-header">
                                 <div class="dropdown-header m-0 p-2">
-                                    <h3 class="white">5 New</h3><span class="notification-title">App Notifications</span>
+                                    <h3 class="white">الاشعارات</h3><span class="notification-title">جميع الاشعارات</span>
                                 </div>
                             </li>
-                            <li class="scrollable-container media-list">
-                                <a class="d-flex justify-content-between" href="javascript:void(0)">
-                                    <div class="media d-flex align-items-start">
-                                        <div class="media-left"><i class="feather icon-plus-square font-medium-5 primary"></i></div>
-                                        <div class="media-body">
-                                            <h6 class="primary media-heading">You have new order!</h6><small class="notification-text"> Are your going to meet me tonight?</small>
-                                        </div><small>
-                                            <time class="media-meta" datetime="2015-06-11T18:29:20+08:00">9 hours ago</time></small>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="dropdown-menu-footer"><a class="dropdown-item p-1 text-center" href="javascript:void(0)">View all notifications</a></li>
+                            @foreach(im('employee')->notifications as $notification)
+                                <li class="scrollable-container media-list">
+                                    <a class="d-flex justify-content-between" href="{{ route($notification->data['route']) }}">
+                                        <div class="media d-flex align-items-start">
+                                            <div class="media-left"><i class="feather icon-plus-square font-medium-5 primary"></i></div>
+                                            <div class="media-body">
+                                                <h6 class="primary media-heading">{{ $notification->data['title'] }}</h6>
+                                                <small class="notification-text">{{ $notification->data['message'] }}</small>
+                                            </div><small>
+                                                <time class="media-meta">{{ $notification->created_at->diffForHumans() }}</time></small>
+                                        </div>
+                                    </a>
+                                </li>
+                            @endforeach
+                            <li class="dropdown-menu-footer"><a class="dropdown-item p-1 text-center" href="javascript:void(0)">رؤية جميع الاشعارات</a></li>
                         </ul>
                     </li>
                     <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">

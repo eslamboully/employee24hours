@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Dashboards\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\Agreement;
+use App\Models\Company;
 use App\Models\Language;
 use App\Models\Job;
 use App\Models\Bid;
 use App\Models\JobType;
 use App\Models\Convention;
+use App\Notifications\NewJob;
 use Astrotomic\Translatable\Locales;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
 
 class JobController extends Controller
@@ -25,7 +29,20 @@ class JobController extends Controller
     {
         $element = Job::find($id);
         $bid = Bid::where(['job_id' => $element->id, 'employee_id' => im('employee')->id])->first();
-        return view('Employee.jobs.show',compact('element','bid'));
+        $elementWorkFrom = date('H:i:s', strtotime($element->work_from));
+        $employeeWorkFrom = date('H:i:s', strtotime(im('employee')->work_from));
+
+        $elementWorkTo = date('H:i:s', strtotime($element->work_to));
+        $employeeWorkTo = date('H:i:s', strtotime(im('employee')->work_to));
+
+        return view('Employee.jobs.show',compact(
+            'element',
+            'bid',
+            'elementWorkFrom',
+            'employeeWorkFrom',
+            'elementWorkTo',
+            'employeeWorkTo'
+        ));
     }
 
     public function createBids(Request $request)
@@ -35,7 +52,18 @@ class JobController extends Controller
             'job_id' => 'required',
         ]);
 
-        Bid::create($data + ['employee_id' => im('employee')->id]);
+        $bid = Bid::create($data + ['employee_id' => im('employee')->id]);
+
+        $company = Company::find($bid->job->company_id);
+
+        // send notifications to admins to approve
+        $data = [
+            'title' => im('employee')->name,
+            'message' => 'قام بتقديم عرض لوظيفة',
+            'route' => 'company.jobs.index'
+        ];
+
+        Notification::send($company, new NewJob($data));
 
         Session::flash('success', 'Successfully');
         return redirect()->back();

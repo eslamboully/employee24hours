@@ -67,7 +67,7 @@
                                                             @if($element->status == 0)
                                                                 <a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-success">المزيد</a>
                                                             @elseif($element->status == 1)
-                                                                @if($element->job->contract->again == 0)
+                                                                @if($element->job->contract && $element->job->contract->again == 0)
                                                                     @if($element->job->contract->accept == 0)
                                                                         <div class="text-nowrap btn-group-sm">
                                                                             <button type="button" class="btn btn-success see_contract"
@@ -88,7 +88,7 @@
                                                                             </button>
                                                                         </div>
                                                                     @endif
-                                                                @elseif($element->job->contract->again == 1)
+                                                                @elseif($element->job->contract && $element->job->contract->again == 1)
                                                                     <a href="#" class="btn btn-success">بانتظار عرض جديد</a>
                                                                 @endif
                                                             @elseif($element->status == 2)

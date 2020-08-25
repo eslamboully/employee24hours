@@ -81,7 +81,7 @@
                                                             @if($element->status == 0)
                                                                 <button class="btn btn-success" disabled>في انتظار القبول</button>
                                                             @elseif($element->status == 1)
-                                                                <button class="btn btn-info" disabled>قيد العمل بها</button>
+                                                                <button class="btn btn-info" disabled>قيد العمل</button>
                                                             @elseif($element->status == 2)
                                                                 <button class="btn btn-primary" disabled>وظيفة ملغية</button>
                                                             @elseif($element->status == 3)
@@ -96,11 +96,17 @@
                                                                 {{ csrf_field() }}
                                                                 @if($element->status == 3)
                                                                     <a href="{{ route('company.jobs.edit',$element->id) }}" class="btn btn-success"><i class="fa fa-edit"></i>تعديل</a>
-                                                                @endif
-                                                                    <button class="btn btn-danger delete_class" data-id="{{ $element->id }}">
-                                                                        <i class="fa fa-trash"></i>
-                                                                        حذف
+                                                                @elseif($element->contract && $element->contract->accept == 1)
+                                                                    <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-info info_button"
+                                                                        data-name="{{ $element->choosenBid()->employee->name }}"
+                                                                        data-email="{{ $element->choosenBid()->employee->email }}"
+                                                                        data-languages="{{ $element->choosenBid()->employee->languages }}"
+                                                                        data-work-from="{{ $element->choosenBid()->employee->work_from }}"
+                                                                        data-work-to="{{ $element->choosenBid()->employee->work_to }}"
+                                                                        data-work-days-in-week="{{ $element->choosenBid()->employee->work_days_in_week }}">
+                                                                        الموظف الحالي
                                                                     </button>
+                                                                @endif
                                                             </form>
                                                         </td>
                                                     </tr>
@@ -117,6 +123,27 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">تفاصيل صاحب العرض</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-borderless mb-0 info_table">
+
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary form-control" data-dismiss="modal">حسنا</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('js')
@@ -158,6 +185,50 @@
                     window.location.href = `{{ route('company.jobs.destroy') }}/${that.dataset.id}`;
                 }
             })
+        });
+        $('.info_button').on('click',function (e) {
+            e.preventDefault();
+            let name = $(this).data('name');
+            let email = $(this).data('email');
+            let languages = $(this).data('languages');
+            let work_from = $(this).data('work-from');
+            let work_to = $(this).data('work-to');
+            let work_days_in_week = $(this).data('work-days-in-week');
+
+            $('.info_table').html(`
+                <thead>
+                            <tr>
+                                <th>المعلومات</th>
+                                <th class="text-left">التفاصيل</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>الاسم</td>
+                                <td>${name}</td>
+                            </tr>
+                            <tr>
+                                <td>البريد الالكتروني</td>
+                                <td>${email}</td>
+                            </tr>
+                            <tr>
+                                <td>اللغات</td>
+                                <td>${languages}</td>
+                            </tr>
+                            <tr>
+                                <td>يعمل من</td>
+                                <td>${work_from}</td>
+                            </tr>
+                            <tr>
+                                <td>يعمل الي</td>
+                                <td>${work_to}</td>
+                            </tr>
+                            <tr>
+                                <td>ايام العمل في الاسبوع</td>
+                                <td>${work_days_in_week}</td>
+                            </tr>
+                            </tbody>
+            `);
         });
     </script>
 
