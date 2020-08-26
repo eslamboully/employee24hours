@@ -56,7 +56,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach(im('employee')->bids as $index=>$element)
+                                                @foreach($bids as $index=>$element)
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
                                                         <td>{{ $element->description }}</td>

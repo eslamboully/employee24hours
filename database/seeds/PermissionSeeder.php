@@ -33,5 +33,10 @@ class PermissionSeeder extends Seeder
         $admin = Admin::first();
         $permissions = Permission::all();
         $admin->givePermissionTo($permissions);
+
+        // Employee Roles
+        Role::create(['guard_name' => 'employee','name' => 'first_helper_category']);
+        Role::create(['guard_name' => 'employee','name' => 'second_helper_category']);
+        Role::create(['guard_name' => 'employee','name' => 'third_helper_category']);
     }
 }

@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول الشركات التي اعمل بها</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول مهماتي</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الشركات
+                                    <li class="breadcrumb-item active">ادارة المهمات
                                     </li>
                                 </ol>
                             </div>
@@ -36,11 +36,18 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">الوظائف الخاصة بي</h4>
+                                <h4 class="card-title">المهمات الخاصة بي</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
+{{--                                        @if(im('company')->hasPermissionTo('create_jobtypes'))--}}
+{{--                                        <a href="" class="btn btn-success">اضف جديد</a>--}}
+{{--                                        @else--}}
+{{--                                            <a href="#" class="btn btn-success disabled" disabled>اضف جديد</a>--}}
+{{--                                        @endif--}}
+                                        <a href="" class="btn btn-primary">تحديث</a>
+                                        <a href="" class="btn btn-danger">حذف الكل</a>
                                     </p>
                                     <!-- Table with outer spacing -->
                                     <div class="table-responsive">
@@ -48,25 +55,34 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>الشركة</th>
+                                                <th>المهمة</th>
                                                 <th>الوظيفة</th>
-                                                <th>ايام العمل في الاسبوع</th>
-                                                <th>تاريخ قبول الوظيفة</th>
-                                                <th>التفاصيل</th>
+                                                <th>الشركة</th>
+                                                <th>السعر</th>
+                                                <th>ميعاد التسليم</th>
+                                                <th>الحالة</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach(im('employee')->contracts as $index=>$element)
+                                                @foreach(im('employee')->tasks as $index=>$element)
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
-                                                        <td>{{ $element->job->company->name }}</td>
-                                                        <td>{!! $element->job->title !!}</td>
-                                                        <td>{{ $element->job->work_days_in_week }}</td>
-                                                        <td>{{ $element->employee->pivotCompanyColumns($element->job->company->id)->started_at }}</td>
+                                                        <td>{{ \Illuminate\Support\Str::limit($element->description,20) }}</td>
+                                                        <td>{{ $element->job->title }}</td>
+                                                        <td>{{ $element->company->name }}</td>
+                                                        <td>{{ $element->price }}</td>
+                                                        <td>{{ $element->deadline }}</td>
                                                         <td>
                                                             <div class="text-nowrap">
-                                                                <a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-success">فسخ التعاقد</a>
-                                                                <a href="{{ route('employee.jobs.show',$element->id) }}" class="btn btn-info">طلب اجازة</a>
+                                                                @if($element->status == 0)
+                                                                    <button class="btn btn-primary" disabled>قيد التنفيذ</button>
+                                                                    <a href="" class="btn btn-info">تسليم العمل</a>
+                                                                @elseif($element->status == 1)
+                                                                    <button class="btn btn-info" disabled>تم انجازها</button>
+                                                                @elseif($element->status == 2)
+                                                                    <button class="btn btn-primary" disabled>متأخرة</button>
+                                                                    <a href="" class="btn btn-info">تسليم العمل</a>
+                                                                @endif
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -83,6 +99,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('js')
@@ -92,6 +109,40 @@
     <script src="{{ url('assets/Admin') }}/app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
+    <script>
+        $('.see_refusal_details').on('click',function (e) {
+            e.preventDefault();
+            let that = this;
+            let refusal_details = $(this).data('refusal');
+            Swal.fire(refusal_details);
+        });
+
+
+        $('.delete_class').on('click',function (e) {
+            e.preventDefault();
+            let that = this;
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: 'هل انت متأكد من عملية المسح ؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم احذف هذا',
+                cancelButtonText: 'الغاء وتراجع',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = `{{ route('company.jobs.destroy') }}/${that.dataset.id}`;
+                }
+            })
+        });
+    </script>
 
     @if(session()->has('success'))
         <script>

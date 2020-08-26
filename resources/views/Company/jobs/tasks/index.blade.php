@@ -1,4 +1,4 @@
-@extends('Admin.layouts.app')
+@extends('Company.layouts.app')
 
 @section('content')
     <div class="app-content content">
@@ -9,12 +9,12 @@
                 <div class="content-header-left col-md-9 col-12 mb-2">
                     <div class="row breadcrumbs-top">
                         <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">جدول الوظائف</h2>
+                            <h2 class="content-header-title float-left mb-0">جدول المهمات</h2>
                             <div class="breadcrumb-wrapper col-12">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="#">الرئيسية</a>
                                     </li>
-                                    <li class="breadcrumb-item active">ادارة الوظائف
+                                    <li class="breadcrumb-item active">ادارة المهمات
                                     </li>
                                 </ol>
                             </div>
@@ -36,13 +36,13 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">وظائف الشركة</h4>
+                                <h4 class="card-title">المهمات الخاصة بالوظيفة ({{ $job->title }})</h4>
                             </div>
                             <div class="card-content">
                                 <div class="card-body">
                                     <p class="card-text">
 {{--                                        @if(im('company')->hasPermissionTo('create_jobtypes'))--}}
-                                        <a href="{{ route('company.jobs.create') }}" class="btn btn-success">اضف جديد</a>
+                                        <a href="{{ route('company.job.tasks.create',$job->id) }}" class="btn btn-success">اضف جديد</a>
 {{--                                        @else--}}
 {{--                                            <a href="#" class="btn btn-success disabled" disabled>اضف جديد</a>--}}
 {{--                                        @endif--}}
@@ -55,54 +55,31 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>العنوان</th>
-                                                <th>الراتب / المقابل</th>
-                                                <th>ايام العمل في الاسبوع</th>
-                                                <th>العمل من</th>
-                                                <th>حتي الساعة</th>
-                                                <th>القسم</th>
-                                                <th>الشركة</th>
+                                                <th>المهمة</th>
+                                                <th>السعر</th>
+                                                <th>ميعاد التسليم</th>
                                                 <th>الحالة</th>
-                                                <th>الاجراءات</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($elements as $index=>$element)
+                                                @foreach($job->tasks as $index=>$element)
                                                     <tr>
                                                         <td scope="row">{{ $index +1 }}</td>
-                                                        <td>{{ $element->title }}</td>
-                                                        <td>{{ $element->salary }}دولار</td>
-                                                        <td>{{ $element->work_days_in_week }}</td>
-                                                        <td>{{ $element->work_from }}</td>
-                                                        <td>{{ $element->work_to }}</td>
-                                                        <td>{{ $element->type->title }}</td>
-                                                        <td>{{ $element->company->email }}</td>
+                                                        <td>{{ \Illuminate\Support\Str::limit($element->description,20) }}</td>
+                                                        <td>{{ $element->price }}</td>
+                                                        <td>{{ $element->deadline }}</td>
                                                         <td>
                                                             @if($element->status == 0)
-                                                                <button class="btn btn-success" disabled>في انتظار القبول</button>
+                                                                <button class="btn btn-info" disabled>قيد التنفيذ</button>
                                                             @elseif($element->status == 1)
-                                                                <button class="btn btn-info" disabled>قيد العمل بها</button>
+                                                                <button class="btn btn-info" disabled>قيد العمل</button>
                                                             @elseif($element->status == 2)
                                                                 <button class="btn btn-primary" disabled>وظيفة ملغية</button>
                                                             @elseif($element->status == 3)
-                                                                <button class="btn btn-primary" disabled>وظائف مرفوضة</button>
+                                                                <button class="btn btn-primary see_refusal_details" data-refusal="{{ $element->refusal_details }}">وظائف مرفوضة : السبب</button>
                                                             @elseif($element->status == 4)
                                                                 <button class="btn btn-dark" disabled>وظائف معروضة</button>
                                                             @endif
-                                                        </td>
-                                                        <td>
-                                                            <form action="{{ route('admin.jobs.refuse',$element->id) }}" method="post">
-                                                                {{ csrf_field() }}
-                                                                @if($element->status != 4 && $element->status != 1)
-                                                                    <button
-                                                                        data-id="{{ $element->id }}"
-                                                                        data-description=":{{ str_replace('&nbsp;',' ',strip_tags($element->description)) }}"
-                                                                        class="btn btn-info details_class"><i class="fa fa-eye"></i>المزيد</button>
-                                                                @endif
-                                                                    <button class="btn btn-danger refuse_class" data-id="{{ $element->id }}">
-                                                                        رفض
-                                                                    </button>
-                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -118,6 +95,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('js')
@@ -128,62 +106,37 @@
     <script src="{{ url('assets/Admin') }}/app-assets/js/scripts/datatables/datatable.js"></script>
 
     <script>
-        $('.details_class').on('click',async function (e) {
+        $('.see_refusal_details').on('click',function (e) {
             e.preventDefault();
             let that = this;
-            let id = $(this).data('id');
-            let description = $(this).data('description');
-
-            Swal.fire({
-                title: `وظيفة رقم ${id}`,
-                text: `التفاصيل ${description}`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'تنزيل الوظيفة',
-                cancelButtonText: 'حسنا'
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        'url' : '{{ route('admin.jobs.accept') }}',
-                        'method' : 'post',
-                        data: {_token: '{{ csrf_token() }}',id: id},
-                        success : function () {
-                            window.location.href = '{{ route('admin.jobs.index') }}?status=4'
-                        }
-                    });
-                }
-            })
-
-
+            let refusal_details = $(this).data('refusal');
+            Swal.fire(refusal_details);
         });
 
-        $('.refuse_class').on('click',async function (e) {
+
+        $('.delete_class').on('click',function (e) {
             e.preventDefault();
             let that = this;
-            let id = $(this).data('id');
-            const { value: text } = await Swal.fire({
-                input: 'textarea',
-                inputPlaceholder: 'سبب الرفض...',
-                inputAttributes: {
-                    'aria-label': 'سبب الرفض...'
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
                 },
-                showCancelButton: true
+                buttonsStyling: false
             });
 
-            if (text) {
-                    $.ajax({
-                        'url' : '{{ route('admin.jobs.refuse') }}',
-                        'method' : 'post',
-                        data: {_token: '{{ csrf_token() }}',refusal_details: text,id: id},
-                        success : function () {
-                            window.location.href = '{{ route('admin.jobs.index') }}?status=3'
-                        }
-                    });
-            }
-
-
+            swalWithBootstrapButtons.fire({
+                title: 'هل انت متأكد من عملية المسح ؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم احذف هذا',
+                cancelButtonText: 'الغاء وتراجع',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = `{{ route('company.jobs.destroy') }}/${that.dataset.id}`;
+                }
+            })
         });
     </script>
 

@@ -41,12 +41,17 @@ class Job extends Model implements TranslatableContract
 
     public function choosenBid()
     {
-        $bid = $this->bids->where('status',2)->first();
+        $bid = $this->bids->whereIn('status',[1,2])->first();
         return $bid;
     }
 
     public function contract()
     {
         return $this->hasOne(Contract::class,'job_id','id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class,'job_id','id');
     }
 }

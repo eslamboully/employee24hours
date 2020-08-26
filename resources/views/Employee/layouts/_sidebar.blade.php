@@ -31,19 +31,28 @@
             </li>
         </ul>
     </li>
-    <li class=" nav-item">
-        <a href="#"><i class="feather icon-aperture"></i>
-            <span class="menu-title" data-i18n="Menu Levels">شركات اعمل بها</span>
+    <li class="{{ active('related-companies') }}">
+        <a href="{{ route('employee.related-companies.index') }}">
+            <i class="feather icon-airplay"></i>
+            <span class="menu-item" data-i18n="Second Level">
+                الشركات التي اعمل بها
+            </span>
         </a>
-        <ul class="menu-content">
-            <li class="{{ active('related-companies') }}">
-                <a href="{{ route('employee.related-companies.index') }}">
-                    <i class="feather icon-circle"></i>
-                    <span class="menu-item" data-i18n="Second Level">
-                        الشركات التي اعمل بها
-                    </span>
-                </a>
-            </li>
-        </ul>
+    </li>
+    <li class="{{ active('related-helper') }}">
+        <a href="{{ route('employee.jobs.index') }}">
+            <i class="feather icon-book"></i>
+            <span class="menu-item" data-i18n="Second Level">
+                اعمالي الموكلة
+            </span>
+        </a>
+    </li>
+    <li class="{{ active('tasks') }}">
+        <a href="{{ route('employee.tasks.index') }}">
+            <i class="feather icon-x-circle"></i>
+            <span class="menu-item" data-i18n="Second Level">
+                تاسكات الشركات
+            </span>
+        </a>
     </li>
 </ul>

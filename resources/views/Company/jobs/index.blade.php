@@ -76,7 +76,13 @@
                                                         <td>{{ $element->work_from }}</td>
                                                         <td>{{ $element->work_to }}</td>
                                                         <td>{{ $element->type->title }}</td>
-                                                        <td><a href="{{ route('company.jobs.bids.index',$element->id) }}" class="btn btn-dark">عروض الوظيفة</a></td>
+                                                        <td>
+                                                            @if($element->status == 1)
+                                                                <a href="{{ route('company.job.tasks.index',$element->id) }}" class="btn btn-primary waves-effect waves-light">مهمات الوظيفة</a>
+                                                            @else
+                                                            <a href="{{ route('company.jobs.bids.index',$element->id) }}" class="btn btn-dark">عروض الوظيفة</a>
+                                                            @endif
+                                                        </td>
                                                         <td>
                                                             @if($element->status == 0)
                                                                 <button class="btn btn-success" disabled>في انتظار القبول</button>

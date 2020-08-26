@@ -32,6 +32,9 @@ Route::group(['prefix' => 'employee-panel','as' => 'employee.'], function () {
 
         // Related Companies Crud System
         Route::get('related-companies','JobController@relatedCompanies')->name('related-companies.index');
+
+        // Employee Tasks
+        Route::get('tasks','TaskController@index')->name('tasks.index');
     });
 
 

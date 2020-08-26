@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
 
 class ContractController extends Controller
 {
@@ -30,7 +31,7 @@ class ContractController extends Controller
 
         // Job
         $job = Job::find($contract->job_id);
-        $job->update(['accept' => 1]);
+        $job->update(['status' => 1]);
 
         DB::table('company_employee')
             ->insert([
@@ -41,13 +42,22 @@ class ContractController extends Controller
                 'salary' => $job->salary
                 ]);
 
+        // Roles
+        if ($job->helper_type == 1) {
+            im('employee')->assignRole('first_helper_category');
+        }elseif($job->helper_type == 2) {
+            im('employee')->assignRole('second_helper_category');
+        }elseif($job->helper_type == 3) {
+            im('employee')->assignRole('third_helper_category');
+        }
+
         $company = Company::find($job->company_id);
 
         // send notifications to admins to approve
         $data = [
             'title' => $job->title,
             'message' => 'تهانينا وافق الموظف علي العرض',
-            'route' => 'employee.jobs.bids.index'
+            'route' => 'company.jobs.bids.index'
         ];
 
         Notification::send($company, new NewJob($data));

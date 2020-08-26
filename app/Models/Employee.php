@@ -6,11 +6,12 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends Authenticatable
 {
     use Notifiable;
-
+    use HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -69,6 +70,11 @@ class Employee extends Authenticatable
     {
         $company_employee = DB::table('company_employee')->where(['employee_id' => $this->id,'company_id' =>$company_id])->first();
         return $company_employee;
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class,'employee_id','id');
     }
 
     public function languages()
