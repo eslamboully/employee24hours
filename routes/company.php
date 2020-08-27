@@ -75,9 +75,12 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         Route::get('missions/destroy/{id?}','MissionController@destroy')->name('missions.destroy');
 
         // Tasks Crud System
-        Route::get('job/{id}/tasks','TaskController@index')->name('job.tasks.index');
+        Route::get('job/tasks/{id?}','TaskController@index')->name('job.tasks.index');
         Route::get('job/{id}/tasks/create','TaskController@create')->name('job.tasks.create');
         Route::post('job/tasks/store','TaskController@store')->name('job.tasks.store');
+        // Accept Task From Employee
+        Route::get('job/tasks/accept/{id?}','TaskController@acceptTask')->name('job.tasks.accept');
+        Route::post('job/tasks/refuse','TaskController@refuseTask')->name('job.tasks.refuse');
     });
 
 

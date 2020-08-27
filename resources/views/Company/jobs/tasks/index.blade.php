@@ -72,13 +72,12 @@
                                                             @if($element->status == 0)
                                                                 <button class="btn btn-info" disabled>قيد التنفيذ</button>
                                                             @elseif($element->status == 1)
-                                                                <button class="btn btn-info" disabled>قيد العمل</button>
+                                                                <button class="btn btn-info accept_task" data-id="{{ $element->id }}">تأكيد استلام العمل</button>
+                                                                <button class="btn btn-danger refuse_task" data-task-id="{{ $element->id }}" data-job-id="{{ $element->job_id }}">رفض العمل</button>
                                                             @elseif($element->status == 2)
-                                                                <button class="btn btn-primary" disabled>وظيفة ملغية</button>
+                                                                <button class="btn btn-primary" disabled>تم انجازها</button>
                                                             @elseif($element->status == 3)
-                                                                <button class="btn btn-primary see_refusal_details" data-refusal="{{ $element->refusal_details }}">وظائف مرفوضة : السبب</button>
-                                                            @elseif($element->status == 4)
-                                                                <button class="btn btn-dark" disabled>وظائف معروضة</button>
+                                                                <button class="btn btn-info" disabled>قيد التنفيذ</button>
                                                             @endif
                                                         </td>
                                                     </tr>
@@ -114,7 +113,7 @@
         });
 
 
-        $('.delete_class').on('click',function (e) {
+        $('.accept_task').on('click',function (e) {
             e.preventDefault();
             let that = this;
             const swalWithBootstrapButtons = Swal.mixin({
@@ -126,18 +125,46 @@
             });
 
             swalWithBootstrapButtons.fire({
-                title: 'هل انت متأكد من عملية المسح ؟',
+                title: 'استلام المهمة من الموظف ؟',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'نعم احذف هذا',
+                confirmButtonText: 'استلام',
                 cancelButtonText: 'الغاء وتراجع',
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-                    window.location.href = `{{ route('company.jobs.destroy') }}/${that.dataset.id}`;
+                    window.location.href = `{{ route('company.job.tasks.accept') }}/${that.dataset.id}`;
                 }
             })
         });
+
+        $('.refuse_task').on('click',async function (e) {
+            e.preventDefault();
+
+            let task_id = $(this).data('task-id');
+            const { value: text } = await Swal.fire({
+                input: 'textarea',
+                inputPlaceholder: 'رسالة السبب للموظف ...',
+                inputAttributes: {
+                    'aria-label': 'رسالة السبب للموظف ...'
+                },
+                showCancelButton: true
+            });
+
+            if (text) {
+                $.ajax({
+                    'url' : '{{ route('company.job.tasks.refuse') }}',
+                    'method' : 'post',
+                    data: {_token: '{{ csrf_token() }}',refusal_details: text,task_id: task_id},
+                    success : function () {
+                        window.location.href = `{{ route('company.job.tasks.index') }}/${$(this).data('job-id')}`
+                    }
+                });
+            }
+
+
+        });
+
     </script>
 
     @if(session()->has('success'))

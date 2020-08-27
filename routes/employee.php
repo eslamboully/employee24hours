@@ -35,6 +35,7 @@ Route::group(['prefix' => 'employee-panel','as' => 'employee.'], function () {
 
         // Employee Tasks
         Route::get('tasks','TaskController@index')->name('tasks.index');
+        Route::get('/tasks/finish/{id?}','TaskController@finishTask')->name('tasks.finish');
     });
 
 

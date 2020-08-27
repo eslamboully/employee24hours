@@ -76,12 +76,14 @@
                                                             <div class="text-nowrap">
                                                                 @if($element->status == 0)
                                                                     <button class="btn btn-primary" disabled>قيد التنفيذ</button>
-                                                                    <a href="" class="btn btn-info">تسليم العمل</a>
+                                                                    <button class="btn btn-info finish_task" data-id="{{ $element->id }}">تسليم العمل</button>
                                                                 @elseif($element->status == 1)
-                                                                    <button class="btn btn-info" disabled>تم انجازها</button>
+                                                                    <button class="btn btn-info" disabled>بانتظار التأكد</button>
                                                                 @elseif($element->status == 2)
-                                                                    <button class="btn btn-primary" disabled>متأخرة</button>
-                                                                    <a href="" class="btn btn-info">تسليم العمل</a>
+                                                                    <button class="btn btn-info" disabled>تم انجازها</button>
+                                                                @elseif($element->status == 3)
+                                                                    <button class="btn btn-primary see_refusal_details" data-refusal="{{ $element->refusal_details }}">سبب الرفض</button>
+                                                                    <a href="" class="btn btn-info finish_task" data-id="{{ $element->id }}">تسليم مرة اخرى</a>
                                                                 @endif
                                                             </div>
                                                         </td>
@@ -139,6 +141,31 @@
             }).then((result) => {
                 if (result.value) {
                     window.location.href = `{{ route('company.jobs.destroy') }}/${that.dataset.id}`;
+                }
+            })
+        });
+
+        $('.finish_task').on('click',function (e) {
+            e.preventDefault();
+            let that = this;
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: 'هل انت متأكد من اتمام العمل ؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'نعم اتممت العمل',
+                cancelButtonText: 'الغاء',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = `{{ route('employee.tasks.finish') }}/${that.dataset.id}`;
                 }
             })
         });

@@ -58,4 +58,52 @@ class TaskController extends Controller
         Session::flash('success', 'Added Successfully');
         return redirect()->route('company.job.tasks.index',$task->job_id);
     }
+
+    public function acceptTask($id)
+    {
+        $task = Task::find($id);
+        $task->update(['status' => 2]);
+
+        $job = Job::find($task->job_id);
+
+//        if ($job->convention->agreement_id == 1)
+//        {
+//
+//        }
+
+
+        $company = Company::find($task->company_id);
+        // send notifications to admins to approve
+        $data = [
+            'title' => im('company')->name,
+            'message' => 'تم استلام المهمة من الشركة بنجاح',
+            'route' => 'employee.jobs.index'
+        ];
+
+        Notification::send($company, new NewJob($data));
+
+        Session::flash('success', 'Task Accepted Successfully');
+
+        return redirect()->back();
+    }
+
+    public function refuseTask(Request $request)
+    {
+        $task = Task::find($request->get('task_id'));
+        $task->update(['status' => 3,'refusal_details' => $request->get('refusal_details')]);
+
+        $company = Company::find($task->company_id);
+        // send notifications to admins to approve
+        $data = [
+            'title' => im('company')->name,
+            'message' => 'تم استلام المهمة من الشركة بنجاح',
+            'route' => 'employee.jobs.index'
+        ];
+
+        Notification::send($company, new NewJob($data));
+
+        Session::flash('success', 'Task Refused Successfully');
+
+        return redirect()->back();
+    }
 }

@@ -25,4 +25,24 @@ class TaskController extends Controller
     {
         return view('Employee.jobs.tasks.index');
     }
+
+    public function finishTask($id)
+    {
+        $task = Task::find($id);
+        $task->update(['status' => 1]);
+
+        $company = Company::find($task->company_id);
+        // send notifications to admins to approve
+        $data = [
+            'title' => im('employee')->name,
+            'message' => 'ارسل الموظف طلب استلام لمهمة',
+            'route' => 'company.jobs.index'
+        ];
+
+        Notification::send($company, new NewJob($data));
+
+        Session::flash('success', 'Requested Finish Successfully');
+
+        return redirect()->back();
+    }
 }

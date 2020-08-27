@@ -53,6 +53,7 @@ class ContractController extends Controller
 
         $company = Company::find($job->company_id);
 
+        
         // send notifications to admins to approve
         $data = [
             'title' => $job->title,

@@ -19,6 +19,7 @@ class CreateTasksTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->integer('price')->nullable();
             $table->string('deadline')->nullable();
+            $table->text('refusal_details')->nullable();
 
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')
