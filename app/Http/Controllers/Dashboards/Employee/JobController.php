@@ -71,7 +71,7 @@ class JobController extends Controller
 
     public function indexBids()
     {
-        $bids = Bid::where(['employee_id' => im('employee')->id,'status' => 0])->get();
+        $bids = Bid::where(['employee_id' => im('employee')->id])->get();
         return view('Employee.jobs.bids.index',compact('bids'));
     }
 

@@ -142,6 +142,7 @@
             e.preventDefault();
 
             let task_id = $(this).data('task-id');
+            let job_id = $(this).data('job-id');
             const { value: text } = await Swal.fire({
                 input: 'textarea',
                 inputPlaceholder: 'رسالة السبب للموظف ...',
@@ -157,7 +158,7 @@
                     'method' : 'post',
                     data: {_token: '{{ csrf_token() }}',refusal_details: text,task_id: task_id},
                     success : function () {
-                        window.location.href = `{{ route('company.job.tasks.index') }}/${$(this).data('job-id')}`
+                        window.location.href = `{{ route('company.job.tasks.index') }}/${job_id}`
                     }
                 });
             }
