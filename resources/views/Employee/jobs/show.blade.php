@@ -170,7 +170,7 @@
                 @if($bid === null)
                 {{-- Job => work_from > Employee => work_from && Job => work_to > Employee => work_to  --}}
 
-                    @if($elementWorkFrom > $employeeWorkFrom && $elementWorkTo < $employeeWorkTo)
+                    @if($elementWorkFrom >= $employeeWorkFrom && $elementWorkTo <= $employeeWorkTo)
                         <div class="col-sm-12 col-md-12">
                             <div class="card">
                                 <div class="card-header">
@@ -195,7 +195,7 @@
                     @else
                         <div class="col-sm-12 col-md-12">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header" style="height: 90px;">
                                     <h4 class="card-title">لا يمكن تقديم عرض لاختلافك مع متطلبات الشركة</h4>
                                 </div>
                             </div>

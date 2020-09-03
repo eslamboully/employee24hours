@@ -46,4 +46,14 @@ class ContractController extends Controller
         Notification::send($employee, new NewJob($data));
 
     }
+
+    public function contractIndex()
+    {
+        $elements = Contract::whereHas('job',function ($q) {
+            return $q->where('company_id',im('company')->id)->whereHas('convention',function ($query) {
+                return $query->whereIn('agreement_id',[1,2]);
+            });
+        })->get();
+        return view('Company.contracts.index',compact('elements'));
+    }
 }

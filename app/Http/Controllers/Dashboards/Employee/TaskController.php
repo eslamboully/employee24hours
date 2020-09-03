@@ -12,6 +12,7 @@ use App\Models\Job;
 use App\Models\Bid;
 use App\Models\JobType;
 use App\Models\Convention;
+use App\Models\Profit;
 use App\Models\Task;
 use App\Notifications\NewJob;
 use Astrotomic\Translatable\Locales;
@@ -38,6 +39,7 @@ class TaskController extends Controller
             'message' => 'ارسل الموظف طلب استلام لمهمة',
             'route' => 'company.jobs.index'
         ];
+
 
         Notification::send($company, new NewJob($data));
 

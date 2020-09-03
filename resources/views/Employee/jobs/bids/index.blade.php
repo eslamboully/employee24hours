@@ -69,7 +69,7 @@
                                                             @elseif($element->status == 1)
                                                                 @if($element->job->contract && $element->job->contract->again == 0)
                                                                     @if($element->job->contract->accept == 0)
-                                                                        <div class="text-nowrap btn-group-sm">
+                                                                        <div class="text-nowrap">
                                                                             <button type="button" class="btn btn-success see_contract"
                                                                                     data-description="{{ $element->job->contract->description }}">
                                                                                 الاتفاقية

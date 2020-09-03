@@ -12,6 +12,7 @@ use App\Models\Job;
 use App\Models\Bid;
 use App\Models\JobType;
 use App\Models\Convention;
+use App\Models\Profit;
 use App\Models\Task;
 use App\Notifications\NewJob;
 use Astrotomic\Translatable\Locales;
@@ -66,10 +67,14 @@ class TaskController extends Controller
 
         $job = Job::find($task->job_id);
 
-//        if ($job->convention->agreement_id == 1)
-//        {
-//
-//        }
+        if ($task->job->convention->agreement_id == 3) {
+            $profit = Profit::create([
+                'price' => $task->price,
+                'employee_id' => $task->employee_id,
+                'job_id' => $task->job_id,
+                'contract_id' => $task->job->contract->id,
+            ]);
+        }
 
 
         $company = Company::find($task->company_id);

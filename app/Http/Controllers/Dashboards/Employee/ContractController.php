@@ -88,4 +88,14 @@ class ContractController extends Controller
 
         return response()->json(['data' => $contract,'message' => '','status'=> true]);
     }
+
+    public function contractIndex()
+    {
+        $elements = Contract::where(['employee_id' =>im('employee')->id])->whereHas('job',function ($q) {
+            return $q->whereHas('convention',function ($query) {
+                return $query->whereIn('agreement_id',[1,2]);
+            });
+        })->get();
+        return view('Employee.contracts.index',compact('elements'));
+    }
 }

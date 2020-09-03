@@ -116,10 +116,17 @@
             <span class="menu-title" data-i18n="Menu Levels">القسم المالي</span>
         </a>
         <ul class="menu-content">
-            <li>
-                <a href="#"><i class="feather icon-trending-up"></i>
+            <li class="{{ active('job-contracts') }}">
+                <a href="{{ route('company.job.contracts.index') }}"><i class="feather icon-trending-up"></i>
                     <span class="menu-item" data-i18n="Second Level">
-                        مستحقات الموظفين
+                        مستحقات الرواتب الشهرية
+                    </span>
+                </a>
+            </li>
+            <li class="{{ active('job-profits') }}">
+                <a href="{{ route('company.job.profits.index') }}"><i class="feather icon-trending-up"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        مستحقات الاعمال الحرة
                     </span>
                 </a>
             </li>

@@ -55,4 +55,27 @@
             </span>
         </a>
     </li>
+    <li class=" nav-item">
+        <a href="#"><i class="feather icon-compass"></i>
+            <span class="menu-title" data-i18n="Menu Levels">تقارير الرواتب والارباح</span>
+        </a>
+        <ul class="menu-content">
+            <li class="{{ active('contracts') }}">
+                <a href="{{ route('employee.contracts.index') }}">
+                    <i class="feather icon-circle"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        الوظائف الثابتة
+                    </span>
+                </a>
+            </li>
+            <li class="{{ active('profits') }}">
+                <a href="{{ route('employee.profits.index') }}">
+                    <i class="feather icon-database"></i>
+                    <span class="menu-item" data-i18n="Second Level">
+                        تقارير الارباح
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </li>
 </ul>

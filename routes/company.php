@@ -78,9 +78,14 @@ Route::group(['prefix' => 'company-panel','as' => 'company.'], function () {
         Route::get('job/tasks/{id?}','TaskController@index')->name('job.tasks.index');
         Route::get('job/{id}/tasks/create','TaskController@create')->name('job.tasks.create');
         Route::post('job/tasks/store','TaskController@store')->name('job.tasks.store');
+
         // Accept Task From Employee
         Route::get('job/tasks/accept/{id?}','TaskController@acceptTask')->name('job.tasks.accept');
         Route::post('job/tasks/refuse','TaskController@refuseTask')->name('job.tasks.refuse');
+
+        // Profits and Contract
+        Route::get('job-contracts','ContractController@contractIndex')->name('job.contracts.index');
+        Route::get('job-profits','ProfitController@profitIndex')->name('job.profits.index');
     });
 
 
